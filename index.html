@@ -18,20 +18,23 @@
     --green: #3b6d11;
     --amber-bg: #faeeda;
     --amber: #854f0b;
+    --red-bg: #fef2f2;
+    --red: #991b1b;
     --radius: 10px;
     --radius-lg: 14px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-  /* Top bar */
+  /* Topbar */
   .topbar { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; gap: 12px; height: 54px; position: sticky; top: 0; z-index: 100; }
-  .topbar-logo { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .topbar-logo { font-size: 15px; font-weight: 600; }
   .topbar-sub { font-size: 12px; color: var(--text3); }
-  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-  .refresh-btn { background: none; border: 0.5px solid var(--border-md); border-radius: 8px; padding: 5px 12px; font-size: 12px; color: var(--text2); cursor: pointer; display: flex; align-items: center; gap: 5px; font-family: inherit; transition: background 0.15s; }
-  .refresh-btn:hover { background: var(--surface2); }
-  .refresh-btn svg { width: 13px; height: 13px; }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .icon-btn { background: none; border: 0.5px solid var(--border-md); border-radius: 8px; padding: 5px 12px; font-size: 12px; color: var(--text2); cursor: pointer; font-family: inherit; transition: background 0.15s; display: flex; align-items: center; gap: 5px; }
+  .icon-btn:hover { background: var(--surface2); }
+  .icon-btn.primary { background: var(--text); color: #fff; border-color: var(--text); font-weight: 500; }
+  .icon-btn.primary:hover { opacity: 0.88; }
   .last-updated { font-size: 11px; color: var(--text3); }
 
   /* Layout */
@@ -44,13 +47,13 @@
   .stat-value { font-size: 26px; font-weight: 600; color: var(--text); line-height: 1; }
   .stat-value.green { color: var(--green); }
   .stat-value.amber { color: var(--amber); }
-  .stat-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
 
   /* Tabs */
-  .tabs { display: flex; gap: 6px; margin-bottom: 1.1rem; }
+  .toolbar { display: flex; align-items: center; gap: 6px; margin-bottom: 1.1rem; flex-wrap: wrap; }
   .tab { padding: 6px 16px; font-size: 13px; border-radius: 8px; border: 0.5px solid var(--border-md); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.15s; font-family: inherit; font-weight: 500; }
   .tab.active { background: var(--text); color: #fff; border-color: var(--text); }
   .tab:hover:not(.active) { background: var(--surface2); }
+  .toolbar-spacer { flex: 1; }
 
   /* Search */
   .search-wrap { margin-bottom: 1.1rem; position: relative; }
@@ -63,9 +66,10 @@
   .tender-list { display: flex; flex-direction: column; gap: 8px; }
   .tender-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: border-color 0.15s; }
   .tender-card:hover { border-color: var(--border-md); }
-  .tender-card.expanded { border-color: rgba(0,0,0,0.30); }
+  .tender-card.expanded { border-color: rgba(0,0,0,0.28); }
   .card-header { padding: 1rem 1.2rem; cursor: pointer; display: flex; align-items: flex-start; gap: 12px; user-select: none; }
-  .status-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+  .status-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; cursor: pointer; transition: opacity 0.15s; }
+  .status-pill:hover { opacity: 0.75; }
   .pill-bid { background: var(--green-bg); color: var(--green); }
   .pill-pending { background: var(--amber-bg); color: var(--amber); }
   .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
@@ -80,8 +84,16 @@
   .chevron { margin-top: 2px; flex-shrink: 0; transition: transform 0.2s; color: var(--text3); }
   .chevron.open { transform: rotate(180deg); }
 
+  /* Card actions */
+  .card-actions { display: flex; gap: 6px; padding: 0 1.2rem 0.9rem; }
+  .card-actions.hidden { display: none; }
+  .act-btn { padding: 5px 14px; font-size: 12px; border-radius: 7px; border: 0.5px solid var(--border-md); background: transparent; color: var(--text2); cursor: pointer; font-family: inherit; transition: background 0.15s; }
+  .act-btn:hover { background: var(--surface2); }
+  .act-btn.danger { color: var(--red); border-color: rgba(153,27,27,0.25); }
+  .act-btn.danger:hover { background: var(--red-bg); }
+
   /* Expanded detail */
-  .card-detail { display: none; border-top: 0.5px solid var(--border); padding: 1rem 1.2rem; }
+  .card-detail { display: none; border-top: 0.5px solid var(--border); padding: 1rem 1.2rem 0.5rem; }
   .card-detail.open { display: block; }
   .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem 1.5rem; margin-bottom: 0.9rem; }
   .detail-item label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text3); display: block; margin-bottom: 3px; }
@@ -89,58 +101,69 @@
   .section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text3); margin-bottom: 6px; }
   .response-box { background: var(--surface2); border-radius: 8px; padding: 10px 13px; font-size: 13px; color: var(--text); line-height: 1.7; border-left: 3px solid var(--green); margin-bottom: 0.75rem; }
   .response-box.amber { border-left-color: var(--amber); }
-  .notes-box { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .notes-box { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 0.75rem; }
 
-  /* Loading / empty */
+  /* State messages */
   .state-msg { text-align: center; padding: 3.5rem 1rem; color: var(--text3); font-size: 14px; }
-  .state-msg svg { display: block; margin: 0 auto 10px; width: 32px; height: 32px; opacity: 0.4; }
+  .error-banner { background: var(--red-bg); border: 0.5px solid #fca5a5; border-radius: var(--radius); padding: 10px 14px; font-size: 13px; color: var(--red); margin-bottom: 1rem; display: none; }
 
-  /* Error banner */
-  .error-banner { background: #fef2f2; border: 0.5px solid #fca5a5; border-radius: var(--radius); padding: 10px 14px; font-size: 13px; color: #991b1b; margin-bottom: 1rem; display: none; }
-  .error-banner a { color: #991b1b; }
+  /* ── Modal ── */
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.38); display: none; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
+  .overlay.open { display: flex; }
+  .modal { background: var(--surface); border-radius: var(--radius-lg); padding: 1.5rem; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; }
+  .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 1.25rem; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); }
+  .form-group input,
+  .form-group select,
+  .form-group textarea { padding: 8px 10px; border: 0.5px solid var(--border-md); border-radius: 8px; font-size: 13px; color: var(--text); font-family: inherit; background: var(--surface); outline: none; transition: border-color 0.15s; resize: vertical; }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: rgba(0,0,0,0.38); }
+  .form-group textarea { min-height: 72px; }
+  .modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.25rem; }
+  .btn { padding: 7px 20px; font-size: 13px; border-radius: 8px; font-family: inherit; cursor: pointer; border: 0.5px solid var(--border-md); background: transparent; color: var(--text2); transition: background 0.15s; }
+  .btn:hover { background: var(--surface2); }
+  .btn.primary { background: var(--text); color: #fff; border-color: var(--text); }
+  .btn.primary:hover { opacity: 0.88; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
   /* Config modal */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; z-index: 200; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: var(--surface); border-radius: var(--radius-lg); padding: 1.5rem; width: 90%; max-width: 480px; }
-  .modal h2 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-  .modal p { font-size: 13px; color: var(--text2); margin-bottom: 1rem; line-height: 1.6; }
-  .modal input { width: 100%; padding: 8px 12px; border: 0.5px solid var(--border-md); border-radius: 8px; font-size: 13px; font-family: monospace; outline: none; margin-bottom: 0.75rem; transition: border-color 0.15s; }
-  .modal input:focus { border-color: rgba(0,0,0,0.4); }
-  .modal-btns { display: flex; gap: 8px; justify-content: flex-end; }
-  .btn-primary { background: var(--text); color: #fff; border: none; border-radius: 8px; padding: 7px 18px; font-size: 13px; font-family: inherit; cursor: pointer; }
-  .btn-secondary { background: none; border: 0.5px solid var(--border-md); border-radius: 8px; padding: 7px 18px; font-size: 13px; font-family: inherit; cursor: pointer; color: var(--text2); }
+  .config-modal input { width: 100%; padding: 8px 10px; border: 0.5px solid var(--border-md); border-radius: 8px; font-size: 13px; font-family: monospace; outline: none; margin-bottom: 0.75rem; }
 
   /* Spinner */
   @keyframes spin { to { transform: rotate(360deg); } }
   .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--text2); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 10px; }
+  .btn-spinner { display: inline-block; width: 12px; height: 12px; border: 1.5px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 5px; }
 </style>
 </head>
 <body>
 
+<!-- Topbar -->
 <div class="topbar">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
   <span class="topbar-logo">陪標管理系統</span>
   <span class="topbar-sub" id="topbar-sub"></span>
   <div class="topbar-right">
     <span class="last-updated" id="last-updated"></span>
-    <button class="refresh-btn" onclick="loadData()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-      重新整理
-    </button>
-    <button class="refresh-btn" onclick="openConfig()">⚙ 設定</button>
+    <button class="icon-btn" onclick="loadData()">↺ 重新整理</button>
+    <button class="icon-btn" onclick="openConfig()">⚙ 設定</button>
+    <button class="icon-btn primary" onclick="openAdd()">＋ 新增標案</button>
   </div>
 </div>
 
 <div class="container">
   <div class="error-banner" id="error-banner"></div>
-  <div class="stats" id="stats">
+
+  <div class="stats">
     <div class="stat"><div class="stat-label">總標案</div><div class="stat-value" id="s-total">—</div></div>
     <div class="stat"><div class="stat-label">已投標</div><div class="stat-value green" id="s-bid">—</div></div>
     <div class="stat"><div class="stat-label">未投標</div><div class="stat-value amber" id="s-pending">—</div></div>
   </div>
 
-  <div class="tabs">
+  <div class="toolbar">
     <button class="tab active" onclick="setTab('all')" id="tab-all">全部</button>
     <button class="tab" onclick="setTab('pending')" id="tab-pending">未投標</button>
     <button class="tab" onclick="setTab('bid')" id="tab-bid">已投標</button>
@@ -148,7 +171,7 @@
 
   <div class="search-wrap">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="text" class="search-input" id="search" placeholder="搜尋標案號碼或名稱…" oninput="render()">
+    <input type="text" class="search-input" id="search" placeholder="搜尋標案號碼、名稱或客戶…" oninput="render()">
   </div>
 
   <div class="tender-list" id="list">
@@ -156,75 +179,123 @@
   </div>
 </div>
 
-<!-- Config Modal -->
-<div class="modal-overlay" id="modal">
+<!-- 新增/編輯 Modal -->
+<div class="overlay" id="form-overlay">
   <div class="modal">
-    <h2>🔧 設定 API 網址</h2>
-    <p>請貼上您的 Google Apps Script 部署網址（Web App URL）。設定後會儲存在本機，下次開啟不需重新輸入。</p>
+    <div class="modal-title" id="form-title">新增標案</div>
+    <input type="hidden" id="edit-id">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>標案號碼 *</label>
+        <input type="text" id="f-id" placeholder="例：113-招-0421">
+      </div>
+      <div class="form-group">
+        <label>開標日期</label>
+        <input type="date" id="f-open_date">
+      </div>
+      <div class="form-group full">
+        <label>標案名稱 *</label>
+        <input type="text" id="f-name" placeholder="例：市立圖書館新建工程採購案">
+      </div>
+      <div class="form-group">
+        <label>陪標金額 *</label>
+        <input type="number" id="f-amount" placeholder="例：8500000">
+      </div>
+      <div class="form-group">
+        <label>投標狀態</label>
+        <select id="f-status">
+          <option value="未投標">未投標</option>
+          <option value="已投標">已投標</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>客戶單位</label>
+        <input type="text" id="f-client" placeholder="例：市政府工務局">
+      </div>
+      <div class="form-group full">
+        <label>應對話術</label>
+        <textarea id="f-response" placeholder="萬一客戶來電，業務人員應該怎麼回應…" rows="4"></textarea>
+      </div>
+      <div class="form-group full">
+        <label>備註</label>
+        <textarea id="f-notes" placeholder="主標廠商、注意事項…" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn" onclick="closeForm()">取消</button>
+      <button class="btn primary" id="form-submit-btn" onclick="submitForm()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 刪除確認 Modal -->
+<div class="overlay" id="del-overlay">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-title">確認刪除</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1.25rem">確定要刪除「<span id="del-name" style="color:var(--text);font-weight:500"></span>」嗎？此操作無法復原。</p>
+    <div class="modal-btns">
+      <button class="btn" onclick="closeDel()">取消</button>
+      <button class="btn danger" style="background:var(--red);color:#fff;border-color:var(--red)" id="del-confirm-btn" onclick="confirmDelete()">確認刪除</button>
+    </div>
+  </div>
+</div>
+
+<!-- 設定 Modal -->
+<div class="overlay" id="config-overlay">
+  <div class="modal config-modal" style="max-width:480px">
+    <div class="modal-title">⚙ 設定 API 網址</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem;line-height:1.6">請貼上 Google Apps Script 部署後的 Web App URL。</p>
     <input type="text" id="api-url-input" placeholder="https://script.google.com/macros/s/xxxxx/exec">
     <div class="modal-btns">
-      <button class="btn-secondary" onclick="closeConfig()">取消</button>
-      <button class="btn-primary" onclick="saveConfig()">儲存並載入</button>
+      <button class="btn" onclick="closeConfig()">取消</button>
+      <button class="btn primary" onclick="saveConfig()">儲存並載入</button>
     </div>
   </div>
 </div>
 
 <script>
-// ── 設定區 ──────────────────────────────
-// 如果想把網址直接寫死，可填在這裡（留空則每次從 localStorage 讀取）
-const HARDCODED_API_URL = 'https://script.google.com/macros/s/AKfycbyEkZJz_7XJlQjLURIrSmVQgxl43kbEQ9mWucSf3cHwxb0YHitzv1YKPPOVlVtiiGtt/exec';
-// ────────────────────────────────────────
+// ── 設定 ────────────────────────────────────────────────────
+const HARDCODED_API_URL = 'https://script.google.com/macros/s/AKfycbyEkZJz_7XJlQjLURIrSmVQgxl43kbEQ9mWucSf3cHwxb0YHitzv1YKPPOVlVtiiGtt/exec'; // 可直接在這裡填寫固定網址
 
 let allData = [];
 let currentTab = 'all';
+let pendingDeleteId = null;
 
 function getApiUrl() {
   return HARDCODED_API_URL || localStorage.getItem('tender_api_url') || '';
 }
 
-function openConfig() {
-  document.getElementById('api-url-input').value = getApiUrl();
-  document.getElementById('modal').classList.add('open');
+// ── API 呼叫 ─────────────────────────────────────────────────
+async function api(body) {
+  const url = getApiUrl();
+  if (!url) { openConfig(); throw new Error('未設定 API 網址'); }
+  const res = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(body)
+  });
+  const json = await res.json();
+  if (json && json.error) throw new Error(json.error);
+  return json;
 }
 
-function closeConfig() {
-  document.getElementById('modal').classList.remove('open');
-}
-
-function saveConfig() {
-  const url = document.getElementById('api-url-input').value.trim();
-  if (!url) { alert('請輸入網址'); return; }
-  localStorage.setItem('tender_api_url', url);
-  closeConfig();
-  loadData();
-}
-
+// ── 載入資料 ─────────────────────────────────────────────────
 async function loadData() {
   const url = getApiUrl();
-  if (!url) {
-    openConfig();
-    return;
-  }
-
+  if (!url) { openConfig(); return; }
   document.getElementById('list').innerHTML = '<div class="state-msg"><div class="spinner"></div>載入中…</div>';
   document.getElementById('error-banner').style.display = 'none';
-
   try {
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
-
-    if (!Array.isArray(json)) throw new Error('回傳格式錯誤，請確認 Apps Script 程式碼');
-
+    if (!Array.isArray(json)) throw new Error('回傳格式錯誤');
     allData = json;
     updateStats();
     render();
-
     const now = new Date();
     document.getElementById('last-updated').textContent = `更新：${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
     document.getElementById('topbar-sub').textContent = `共 ${allData.length} 筆`;
-  } catch (e) {
-    showError(`載入失敗：${e.message}。請確認 Apps Script 網址正確，且已設定「所有人可存取」。`);
+  } catch(e) {
+    showError('載入失敗：' + e.message);
     document.getElementById('list').innerHTML = '<div class="state-msg">⚠️ 無法載入資料</div>';
   }
 }
@@ -243,6 +314,7 @@ function updateStats() {
   document.getElementById('s-pending').textContent = pending;
 }
 
+// ── Tab & 搜尋 ───────────────────────────────────────────────
 function setTab(tab) {
   currentTab = tab;
   ['all','pending','bid'].forEach(t => document.getElementById('tab-'+t).classList.toggle('active', t===tab));
@@ -251,16 +323,15 @@ function setTab(tab) {
 
 function fmtAmount(n) {
   const num = parseInt((n+'').replace(/,/g,''));
-  if (isNaN(num)) return n;
-  return '$' + num.toLocaleString('zh-TW');
+  return isNaN(num) ? n : '$' + num.toLocaleString('zh-TW');
 }
 
+// ── 渲染卡片 ─────────────────────────────────────────────────
 function render() {
   const q = document.getElementById('search').value.trim().toLowerCase();
   let data = allData;
-
   if (currentTab === 'pending') data = data.filter(t => t.status === '未投標');
-  if (currentTab === 'bid') data = data.filter(t => t.status === '已投標');
+  if (currentTab === 'bid')     data = data.filter(t => t.status === '已投標');
   if (q) data = data.filter(t =>
     (t.id+'').toLowerCase().includes(q) ||
     (t.name+'').toLowerCase().includes(q) ||
@@ -277,7 +348,9 @@ function render() {
     return `
     <div class="tender-card" id="card-${i}">
       <div class="card-header" onclick="toggle(${i})">
-        <span class="status-pill ${isBid ? 'pill-bid' : 'pill-pending'}">
+        <span class="status-pill ${isBid ? 'pill-bid' : 'pill-pending'}"
+              onclick="event.stopPropagation(); quickToggle('${t.id}')"
+              title="點擊切換狀態">
           <span class="pill-dot"></span>${t.status}
         </span>
         <div class="card-info">
@@ -300,24 +373,166 @@ function render() {
           <div class="detail-item"><label>陪標金額</label><span>${fmtAmount(t.amount)}</span></div>
         </div>
         <div class="section-title">應對話術</div>
-        <div class="response-box ${isBid ? '' : 'amber'}">${(t.response || '（未填寫）').replace(/\n/g,'<br>')}</div>
+        <div class="response-box ${isBid ? '' : 'amber'}">${(t.response||'（未填寫）').replace(/\n/g,'<br>')}</div>
         ${t.notes ? `<div class="section-title">備註</div><div class="notes-box">${t.notes.replace(/\n/g,'<br>')}</div>` : ''}
+      </div>
+      <div class="card-actions hidden" id="actions-${i}">
+        <button class="act-btn" onclick="openEdit('${t.id}')">✏️ 編輯</button>
+        <button class="act-btn danger" onclick="openDelete('${t.id}','${(t.name||'').replace(/'/g,'\\'')}')">🗑 刪除</button>
       </div>
     </div>`;
   }).join('');
 }
 
 function toggle(i) {
-  const detail = document.getElementById('detail-'+i);
-  const chev = document.getElementById('chev-'+i);
-  const card = document.getElementById('card-'+i);
-  const isOpen = detail.classList.contains('open');
+  const detail  = document.getElementById('detail-'+i);
+  const actions = document.getElementById('actions-'+i);
+  const chev    = document.getElementById('chev-'+i);
+  const card    = document.getElementById('card-'+i);
+  const isOpen  = detail.classList.contains('open');
   detail.classList.toggle('open', !isOpen);
   chev.classList.toggle('open', !isOpen);
   card.classList.toggle('expanded', !isOpen);
+  actions.classList.toggle('hidden', isOpen);
 }
 
-// Init
+// ── 快速切換狀態 ──────────────────────────────────────────────
+async function quickToggle(id) {
+  try {
+    const res = await api({ action: 'toggle', id });
+    const idx = allData.findIndex(t => t.id === id);
+    if (idx !== -1) allData[idx].status = res.newStatus;
+    updateStats();
+    render();
+  } catch(e) {
+    showError('切換失敗：' + e.message);
+  }
+}
+
+// ── 新增表單 ─────────────────────────────────────────────────
+function openAdd() {
+  document.getElementById('form-title').textContent = '新增標案';
+  document.getElementById('edit-id').value = '';
+  ['id','name','amount','client','open_date','response','notes'].forEach(f => {
+    document.getElementById('f-'+f).value = '';
+  });
+  document.getElementById('f-status').value = '未投標';
+  document.getElementById('form-submit-btn').textContent = '新增';
+  document.getElementById('form-overlay').classList.add('open');
+}
+
+// ── 編輯表單 ─────────────────────────────────────────────────
+function openEdit(id) {
+  const t = allData.find(x => x.id === id);
+  if (!t) return;
+  document.getElementById('form-title').textContent = '編輯標案';
+  document.getElementById('edit-id').value = id;
+  ['id','name','amount','client','open_date','response','notes'].forEach(f => {
+    document.getElementById('f-'+f).value = t[f] || '';
+  });
+  document.getElementById('f-status').value = t.status || '未投標';
+  document.getElementById('form-submit-btn').textContent = '儲存';
+  document.getElementById('form-overlay').classList.add('open');
+}
+
+function closeForm() {
+  document.getElementById('form-overlay').classList.remove('open');
+}
+
+// ── 提交表單 ─────────────────────────────────────────────────
+async function submitForm() {
+  const editId = document.getElementById('edit-id').value;
+  const data = {
+    id:        document.getElementById('f-id').value.trim(),
+    name:      document.getElementById('f-name').value.trim(),
+    amount:    document.getElementById('f-amount').value.trim(),
+    status:    document.getElementById('f-status').value,
+    client:    document.getElementById('f-client').value.trim(),
+    open_date: document.getElementById('f-open_date').value,
+    response:  document.getElementById('f-response').value.trim(),
+    notes:     document.getElementById('f-notes').value.trim(),
+  };
+
+  if (!data.id || !data.name || !data.amount) {
+    alert('請填寫標案號碼、名稱和金額');
+    return;
+  }
+
+  const btn = document.getElementById('form-submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-spinner"></span>儲存中…';
+
+  try {
+    if (editId) {
+      await api({ action: 'update', ...data });
+    } else {
+      await api({ action: 'add', ...data });
+    }
+    closeForm();
+    await loadData();
+  } catch(e) {
+    showError('儲存失敗：' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = editId ? '儲存' : '新增';
+  }
+}
+
+// ── 刪除 ─────────────────────────────────────────────────────
+function openDelete(id, name) {
+  pendingDeleteId = id;
+  document.getElementById('del-name').textContent = name;
+  document.getElementById('del-overlay').classList.add('open');
+}
+
+function closeDel() {
+  pendingDeleteId = null;
+  document.getElementById('del-overlay').classList.remove('open');
+}
+
+async function confirmDelete() {
+  if (!pendingDeleteId) return;
+  const btn = document.getElementById('del-confirm-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-spinner"></span>刪除中…';
+  try {
+    await api({ action: 'delete', id: pendingDeleteId });
+    closeDel();
+    await loadData();
+  } catch(e) {
+    showError('刪除失敗：' + e.message);
+    btn.disabled = false;
+    btn.textContent = '確認刪除';
+  }
+}
+
+// ── 設定 Modal ───────────────────────────────────────────────
+function openConfig() {
+  document.getElementById('api-url-input').value = getApiUrl();
+  document.getElementById('config-overlay').classList.add('open');
+}
+function closeConfig() {
+  document.getElementById('config-overlay').classList.remove('open');
+}
+function saveConfig() {
+  const url = document.getElementById('api-url-input').value.trim();
+  if (!url) { alert('請輸入網址'); return; }
+  localStorage.setItem('tender_api_url', url);
+  closeConfig();
+  loadData();
+}
+
+// 點背景關閉 modal
+document.querySelectorAll('.overlay').forEach(el => {
+  el.addEventListener('click', e => {
+    if (e.target === el) {
+      el.classList.remove('open');
+      if (el.id === 'del-overlay') pendingDeleteId = null;
+    }
+  });
+});
+
+// ── 初始化 ───────────────────────────────────────────────────
 window.addEventListener('load', () => {
   if (!getApiUrl()) {
     document.getElementById('list').innerHTML = '<div class="state-msg">請先點右上角「⚙ 設定」輸入 API 網址</div>';
