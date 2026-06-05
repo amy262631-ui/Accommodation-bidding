@@ -5,541 +5,436 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>陪標管理系統</title>
 <style>
-  :root {
-    --bg: #f5f4f0;
-    --surface: #ffffff;
-    --surface2: #f0ede8;
-    --border: rgba(0,0,0,0.10);
-    --border-md: rgba(0,0,0,0.18);
-    --text: #1a1a18;
-    --text2: #6b6a66;
-    --text3: #9e9d99;
-    --green-bg: #eaf3de;
-    --green: #3b6d11;
-    --amber-bg: #faeeda;
-    --amber: #854f0b;
-    --red-bg: #fef2f2;
-    --red: #991b1b;
-    --radius: 10px;
-    --radius-lg: 14px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
-  /* Topbar */
-  .topbar { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; gap: 12px; height: 54px; position: sticky; top: 0; z-index: 100; }
-  .topbar-logo { font-size: 15px; font-weight: 600; }
-  .topbar-sub { font-size: 12px; color: var(--text3); }
-  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-  .icon-btn { background: none; border: 0.5px solid var(--border-md); border-radius: 8px; padding: 5px 12px; font-size: 12px; color: var(--text2); cursor: pointer; font-family: inherit; transition: background 0.15s; display: flex; align-items: center; gap: 5px; }
-  .icon-btn:hover { background: var(--surface2); }
-  .icon-btn.primary { background: var(--text); color: #fff; border-color: var(--text); font-weight: 500; }
-  .icon-btn.primary:hover { opacity: 0.88; }
-  .last-updated { font-size: 11px; color: var(--text3); }
-
-  /* Layout */
-  .container { max-width: 820px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
-
-  /* Stats */
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
-  .stat { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 1rem 1.1rem; }
-  .stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
-  .stat-value { font-size: 26px; font-weight: 600; color: var(--text); line-height: 1; }
-  .stat-value.green { color: var(--green); }
-  .stat-value.amber { color: var(--amber); }
-
-  /* Tabs */
-  .toolbar { display: flex; align-items: center; gap: 6px; margin-bottom: 1.1rem; flex-wrap: wrap; }
-  .tab { padding: 6px 16px; font-size: 13px; border-radius: 8px; border: 0.5px solid var(--border-md); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.15s; font-family: inherit; font-weight: 500; }
-  .tab.active { background: var(--text); color: #fff; border-color: var(--text); }
-  .tab:hover:not(.active) { background: var(--surface2); }
-  .toolbar-spacer { flex: 1; }
-
-  /* Search */
-  .search-wrap { margin-bottom: 1.1rem; position: relative; }
-  .search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--text3); pointer-events: none; }
-  .search-input { width: 100%; padding: 8px 12px 8px 34px; border: 0.5px solid var(--border-md); border-radius: var(--radius); background: var(--surface); font-size: 13px; color: var(--text); font-family: inherit; outline: none; transition: border-color 0.15s; }
-  .search-input:focus { border-color: rgba(0,0,0,0.35); }
-  .search-input::placeholder { color: var(--text3); }
-
-  /* Cards */
-  .tender-list { display: flex; flex-direction: column; gap: 8px; }
-  .tender-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: border-color 0.15s; }
-  .tender-card:hover { border-color: var(--border-md); }
-  .tender-card.expanded { border-color: rgba(0,0,0,0.28); }
-  .card-header { padding: 1rem 1.2rem; cursor: pointer; display: flex; align-items: flex-start; gap: 12px; user-select: none; }
-  .status-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; cursor: pointer; transition: opacity 0.15s; }
-  .status-pill:hover { opacity: 0.75; }
-  .pill-bid { background: var(--green-bg); color: var(--green); }
-  .pill-pending { background: var(--amber-bg); color: var(--amber); }
-  .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-  .card-info { flex: 1; min-width: 0; }
-  .tender-id { font-size: 11px; color: var(--text3); font-family: 'Courier New', monospace; margin-bottom: 3px; }
-  .tender-name { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.4; }
-  .tender-client { font-size: 12px; color: var(--text2); margin-top: 3px; }
-  .card-meta { text-align: right; flex-shrink: 0; }
-  .amount { font-size: 15px; font-weight: 600; color: var(--text); }
-  .amount-label { font-size: 11px; color: var(--text3); margin-top: 1px; }
-  .open-date { font-size: 11px; color: var(--text3); margin-top: 4px; }
-  .chevron { margin-top: 2px; flex-shrink: 0; transition: transform 0.2s; color: var(--text3); }
-  .chevron.open { transform: rotate(180deg); }
-
-  /* Card actions */
-  .card-actions { display: flex; gap: 6px; padding: 0 1.2rem 0.9rem; }
-  .card-actions.hidden { display: none; }
-  .act-btn { padding: 5px 14px; font-size: 12px; border-radius: 7px; border: 0.5px solid var(--border-md); background: transparent; color: var(--text2); cursor: pointer; font-family: inherit; transition: background 0.15s; }
-  .act-btn:hover { background: var(--surface2); }
-  .act-btn.danger { color: var(--red); border-color: rgba(153,27,27,0.25); }
-  .act-btn.danger:hover { background: var(--red-bg); }
-
-  /* Expanded detail */
-  .card-detail { display: none; border-top: 0.5px solid var(--border); padding: 1rem 1.2rem 0.5rem; }
-  .card-detail.open { display: block; }
-  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem 1.5rem; margin-bottom: 0.9rem; }
-  .detail-item label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text3); display: block; margin-bottom: 3px; }
-  .detail-item span { font-size: 13px; color: var(--text); }
-  .section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text3); margin-bottom: 6px; }
-  .response-box { background: var(--surface2); border-radius: 8px; padding: 10px 13px; font-size: 13px; color: var(--text); line-height: 1.7; border-left: 3px solid var(--green); margin-bottom: 0.75rem; }
-  .response-box.amber { border-left-color: var(--amber); }
-  .notes-box { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 0.75rem; }
-
-  /* State messages */
-  .state-msg { text-align: center; padding: 3.5rem 1rem; color: var(--text3); font-size: 14px; }
-  .error-banner { background: var(--red-bg); border: 0.5px solid #fca5a5; border-radius: var(--radius); padding: 10px 14px; font-size: 13px; color: var(--red); margin-bottom: 1rem; display: none; }
-
-  /* ── Modal ── */
-  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.38); display: none; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
-  .overlay.open { display: flex; }
-  .modal { background: var(--surface); border-radius: var(--radius-lg); padding: 1.5rem; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; }
-  .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 1.25rem; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem 1rem; }
-  .form-group { display: flex; flex-direction: column; gap: 5px; }
-  .form-group.full { grid-column: 1 / -1; }
-  .form-group label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); }
-  .form-group input,
-  .form-group select,
-  .form-group textarea { padding: 8px 10px; border: 0.5px solid var(--border-md); border-radius: 8px; font-size: 13px; color: var(--text); font-family: inherit; background: var(--surface); outline: none; transition: border-color 0.15s; resize: vertical; }
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus { border-color: rgba(0,0,0,0.38); }
-  .form-group textarea { min-height: 72px; }
-  .modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.25rem; }
-  .btn { padding: 7px 20px; font-size: 13px; border-radius: 8px; font-family: inherit; cursor: pointer; border: 0.5px solid var(--border-md); background: transparent; color: var(--text2); transition: background 0.15s; }
-  .btn:hover { background: var(--surface2); }
-  .btn.primary { background: var(--text); color: #fff; border-color: var(--text); }
-  .btn.primary:hover { opacity: 0.88; }
-  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-
-  /* Config modal */
-  .config-modal input { width: 100%; padding: 8px 10px; border: 0.5px solid var(--border-md); border-radius: 8px; font-size: 13px; font-family: monospace; outline: none; margin-bottom: 0.75rem; }
-
-  /* Spinner */
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--text2); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 10px; }
-  .btn-spinner { display: inline-block; width: 12px; height: 12px; border: 1.5px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 5px; }
+:root {
+  --bg:#f5f4f0; --surface:#fff; --surface2:#f0ede8;
+  --border:rgba(0,0,0,0.10); --border-md:rgba(0,0,0,0.18);
+  --text:#1a1a18; --text2:#6b6a66; --text3:#9e9d99;
+  --green-bg:#eaf3de; --green:#3b6d11;
+  --amber-bg:#faeeda; --amber:#854f0b;
+  --red-bg:#fef2f2; --red:#991b1b;
+  --r:10px; --rl:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.topbar{background:var(--surface);border-bottom:0.5px solid var(--border);padding:0 1.2rem;display:flex;align-items:center;gap:10px;height:52px;position:sticky;top:0;z-index:100}
+.logo{font-size:15px;font-weight:600}
+.sub{font-size:12px;color:var(--text3)}
+.tr{margin-left:auto;display:flex;align-items:center;gap:7px}
+.ibtn{background:none;border:0.5px solid var(--border-md);border-radius:8px;padding:5px 11px;font-size:12px;color:var(--text2);cursor:pointer;font-family:inherit;transition:background .15s}
+.ibtn:hover{background:var(--surface2)}
+.ibtn.p{background:var(--text);color:#fff;border-color:var(--text);font-weight:500}
+.ibtn.p:hover{opacity:.88}
+.lupd{font-size:11px;color:var(--text3)}
+.wrap{max-width:820px;margin:0 auto;padding:1.5rem 1rem 4rem}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+.stat{background:var(--surface);border-radius:var(--r);border:0.5px solid var(--border);padding:1rem 1.1rem}
+.slbl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.sval{font-size:26px;font-weight:600;color:var(--text);line-height:1}
+.sval.g{color:var(--green)}.sval.a{color:var(--amber)}
+.tabs{display:flex;gap:6px;margin-bottom:1rem}
+.tab{padding:6px 15px;font-size:13px;border-radius:8px;border:0.5px solid var(--border-md);background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;font-weight:500;transition:all .15s}
+.tab.on{background:var(--text);color:#fff;border-color:var(--text)}
+.tab:hover:not(.on){background:var(--surface2)}
+.sw{margin-bottom:1rem;position:relative}
+.sw svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--text3);pointer-events:none}
+.sinput{width:100%;padding:8px 12px 8px 33px;border:0.5px solid var(--border-md);border-radius:var(--r);background:var(--surface);font-size:13px;color:var(--text);font-family:inherit;outline:none;transition:border-color .15s}
+.sinput:focus{border-color:rgba(0,0,0,.35)}
+.sinput::placeholder{color:var(--text3)}
+.list{display:flex;flex-direction:column;gap:8px}
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--rl);overflow:hidden;transition:border-color .15s}
+.card:hover{border-color:var(--border-md)}
+.card.exp{border-color:rgba(0,0,0,.28)}
+.ch{padding:1rem 1.2rem;cursor:pointer;display:flex;align-items:flex-start;gap:12px;user-select:none}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:1px;cursor:pointer;transition:opacity .15s}
+.pill:hover{opacity:.72}
+.pill.b{background:var(--green-bg);color:var(--green)}
+.pill.pd{background:var(--amber-bg);color:var(--amber)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.ci{flex:1;min-width:0}
+.tid{font-size:11px;color:var(--text3);font-family:'Courier New',monospace;margin-bottom:3px}
+.tn{font-size:14px;font-weight:600;line-height:1.4}
+.tc{font-size:12px;color:var(--text2);margin-top:3px}
+.cm{text-align:right;flex-shrink:0}
+.amt{font-size:15px;font-weight:600}
+.amtl{font-size:11px;color:var(--text3);margin-top:1px}
+.od{font-size:11px;color:var(--text3);margin-top:4px}
+.cv{margin-top:2px;flex-shrink:0;transition:transform .2s;color:var(--text3)}
+.cv.op{transform:rotate(180deg)}
+.detail{display:none;border-top:0.5px solid var(--border);padding:1rem 1.2rem .5rem}
+.detail.op{display:block}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem 1.5rem;margin-bottom:.9rem}
+.di label{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);display:block;margin-bottom:3px}
+.di span{font-size:13px;color:var(--text)}
+.stl{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:6px}
+.rbox{background:var(--surface2);border-radius:8px;padding:10px 13px;font-size:13px;line-height:1.7;border-left:3px solid var(--green);margin-bottom:.75rem}
+.rbox.am{border-left-color:var(--amber)}
+.nbox{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:.75rem}
+.cacts{display:none;gap:6px;padding:0 1.2rem .9rem}
+.cacts.op{display:flex}
+.abtn{padding:5px 14px;font-size:12px;border-radius:7px;border:0.5px solid var(--border-md);background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;transition:background .15s}
+.abtn:hover{background:var(--surface2)}
+.abtn.del{color:var(--red);border-color:rgba(153,27,27,.25)}
+.abtn.del:hover{background:var(--red-bg)}
+.smsg{text-align:center;padding:3.5rem 1rem;color:var(--text3);font-size:14px}
+.ebanner{background:var(--red-bg);border:0.5px solid #fca5a5;border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:1rem;display:none}
+/* overlay */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.38);display:none;align-items:center;justify-content:center;z-index:200;padding:1rem}
+.ov.op{display:flex}
+.modal{background:var(--surface);border-radius:var(--rl);padding:1.5rem;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
+.mtitle{font-size:16px;font-weight:600;margin-bottom:1.2rem}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem 1rem}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)}
+.fg input,.fg select,.fg textarea{padding:8px 10px;border:0.5px solid var(--border-md);border-radius:8px;font-size:13px;color:var(--text);font-family:inherit;background:var(--surface);outline:none;transition:border-color .15s;resize:vertical}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(0,0,0,.38)}
+.fg textarea{min-height:70px}
+.mbtns{display:flex;gap:8px;justify-content:flex-end;margin-top:1.2rem}
+.btn{padding:7px 20px;font-size:13px;border-radius:8px;font-family:inherit;cursor:pointer;border:0.5px solid var(--border-md);background:transparent;color:var(--text2);transition:background .15s}
+.btn:hover{background:var(--surface2)}
+.btn.p{background:var(--text);color:#fff;border-color:var(--text)}
+.btn.p:hover{opacity:.88}
+.btn.d{background:var(--red);color:#fff;border-color:var(--red)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--text2);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px}
+.bspin{display:inline-block;width:11px;height:11px;border:1.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:4px}
 </style>
 </head>
 <body>
-
-<!-- Topbar -->
 <div class="topbar">
   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-  <span class="topbar-logo">陪標管理系統</span>
-  <span class="topbar-sub" id="topbar-sub"></span>
-  <div class="topbar-right">
-    <span class="last-updated" id="last-updated"></span>
-    <button class="icon-btn" onclick="loadData()">↺ 重新整理</button>
-    <button class="icon-btn" onclick="openConfig()">⚙ 設定</button>
-    <button class="icon-btn primary" onclick="openAdd()">＋ 新增標案</button>
+  <span class="logo">陪標管理系統</span>
+  <span class="sub" id="tsub"></span>
+  <div class="tr">
+    <span class="lupd" id="lupd"></span>
+    <button class="ibtn" id="refreshBtn">↺ 重新整理</button>
+    <button class="ibtn" id="configBtn">⚙ 設定</button>
+    <button class="ibtn p" id="addBtn">＋ 新增標案</button>
   </div>
 </div>
 
-<div class="container">
-  <div class="error-banner" id="error-banner"></div>
-
+<div class="wrap">
+  <div class="ebanner" id="ebanner"></div>
   <div class="stats">
-    <div class="stat"><div class="stat-label">總標案</div><div class="stat-value" id="s-total">—</div></div>
-    <div class="stat"><div class="stat-label">已投標</div><div class="stat-value green" id="s-bid">—</div></div>
-    <div class="stat"><div class="stat-label">未投標</div><div class="stat-value amber" id="s-pending">—</div></div>
+    <div class="stat"><div class="slbl">總標案</div><div class="sval" id="st">—</div></div>
+    <div class="stat"><div class="slbl">已投標</div><div class="sval g" id="sb">—</div></div>
+    <div class="stat"><div class="slbl">未投標</div><div class="sval a" id="sp">—</div></div>
   </div>
-
-  <div class="toolbar">
-    <button class="tab active" onclick="setTab('all')" id="tab-all">全部</button>
-    <button class="tab" onclick="setTab('pending')" id="tab-pending">未投標</button>
-    <button class="tab" onclick="setTab('bid')" id="tab-bid">已投標</button>
+  <div class="tabs">
+    <button class="tab on" id="tab-all">全部</button>
+    <button class="tab" id="tab-pending">未投標</button>
+    <button class="tab" id="tab-bid">已投標</button>
   </div>
-
-  <div class="search-wrap">
+  <div class="sw">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="text" class="search-input" id="search" placeholder="搜尋標案號碼、名稱或客戶…" oninput="render()">
+    <input type="text" class="sinput" id="search" placeholder="搜尋標案號碼、名稱或客戶…">
   </div>
-
-  <div class="tender-list" id="list">
-    <div class="state-msg"><div class="spinner"></div>載入資料中…</div>
-  </div>
+  <div class="list" id="list"><div class="smsg"><div class="spin"></div>載入中…</div></div>
 </div>
 
-<!-- 新增/編輯 Modal -->
-<div class="overlay" id="form-overlay">
+<!-- 新增/編輯 -->
+<div class="ov" id="formOv">
   <div class="modal">
-    <div class="modal-title" id="form-title">新增標案</div>
-    <input type="hidden" id="edit-id">
-    <div class="form-grid">
-      <div class="form-group">
-        <label>標案號碼 *</label>
-        <input type="text" id="f-id" placeholder="例：113-招-0421">
+    <div class="mtitle" id="formTitle">新增標案</div>
+    <input type="hidden" id="eid">
+    <div class="fgrid">
+      <div class="fg"><label>標案號碼 *</label><input type="text" id="fid" placeholder="例：113-招-0421"></div>
+      <div class="fg"><label>開標日期</label><input type="date" id="fdate"></div>
+      <div class="fg full"><label>標案名稱 *</label><input type="text" id="fname" placeholder="例：市立圖書館新建工程採購案"></div>
+      <div class="fg"><label>陪標金額 *</label><input type="number" id="famt" placeholder="例：8500000"></div>
+      <div class="fg"><label>投標狀態</label>
+        <select id="fstat"><option value="未投標">未投標</option><option value="已投標">已投標</option></select>
       </div>
-      <div class="form-group">
-        <label>開標日期</label>
-        <input type="date" id="f-open_date">
-      </div>
-      <div class="form-group full">
-        <label>標案名稱 *</label>
-        <input type="text" id="f-name" placeholder="例：市立圖書館新建工程採購案">
-      </div>
-      <div class="form-group">
-        <label>陪標金額 *</label>
-        <input type="number" id="f-amount" placeholder="例：8500000">
-      </div>
-      <div class="form-group">
-        <label>投標狀態</label>
-        <select id="f-status">
-          <option value="未投標">未投標</option>
-          <option value="已投標">已投標</option>
-        </select>
-      </div>
-      <div class="form-group full">
-        <label>客戶單位</label>
-        <input type="text" id="f-client" placeholder="例：市政府工務局">
-      </div>
-      <div class="form-group full">
-        <label>應對話術</label>
-        <textarea id="f-response" placeholder="萬一客戶來電，業務人員應該怎麼回應…" rows="4"></textarea>
-      </div>
-      <div class="form-group full">
-        <label>備註</label>
-        <textarea id="f-notes" placeholder="主標廠商、注意事項…" rows="2"></textarea>
-      </div>
+      <div class="fg full"><label>客戶單位</label><input type="text" id="fclient" placeholder="例：市政府工務局"></div>
+      <div class="fg full"><label>應對話術</label><textarea id="fresp" placeholder="萬一客戶來電，業務人員應該怎麼回應…" rows="4"></textarea></div>
+      <div class="fg full"><label>備註</label><textarea id="fnotes" placeholder="主標廠商、注意事項…" rows="2"></textarea></div>
     </div>
-    <div class="modal-btns">
-      <button class="btn" onclick="closeForm()">取消</button>
-      <button class="btn primary" id="form-submit-btn" onclick="submitForm()">儲存</button>
+    <div class="mbtns">
+      <button class="btn" id="formCancel">取消</button>
+      <button class="btn p" id="formSubmit">新增</button>
     </div>
   </div>
 </div>
 
-<!-- 刪除確認 Modal -->
-<div class="overlay" id="del-overlay">
+<!-- 刪除確認 -->
+<div class="ov" id="delOv">
   <div class="modal" style="max-width:380px">
-    <div class="modal-title">確認刪除</div>
-    <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1.25rem">確定要刪除「<span id="del-name" style="color:var(--text);font-weight:500"></span>」嗎？此操作無法復原。</p>
-    <div class="modal-btns">
-      <button class="btn" onclick="closeDel()">取消</button>
-      <button class="btn danger" style="background:var(--red);color:#fff;border-color:var(--red)" id="del-confirm-btn" onclick="confirmDelete()">確認刪除</button>
+    <div class="mtitle">確認刪除</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1.2rem">確定要刪除「<span id="delName" style="color:var(--text);font-weight:500"></span>」嗎？此操作無法復原。</p>
+    <div class="mbtns">
+      <button class="btn" id="delCancel">取消</button>
+      <button class="btn d" id="delConfirm">確認刪除</button>
     </div>
   </div>
 </div>
 
-<!-- 設定 Modal -->
-<div class="overlay" id="config-overlay">
-  <div class="modal config-modal" style="max-width:480px">
-    <div class="modal-title">⚙ 設定 API 網址</div>
+<!-- 設定 -->
+<div class="ov" id="cfgOv">
+  <div class="modal" style="max-width:480px">
+    <div class="mtitle">⚙ 設定 API 網址</div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:1rem;line-height:1.6">請貼上 Google Apps Script 部署後的 Web App URL。</p>
-    <input type="text" id="api-url-input" placeholder="https://script.google.com/macros/s/xxxxx/exec">
-    <div class="modal-btns">
-      <button class="btn" onclick="closeConfig()">取消</button>
-      <button class="btn primary" onclick="saveConfig()">儲存並載入</button>
+    <div class="fg full" style="margin-bottom:.75rem">
+      <input type="text" id="cfgUrl" placeholder="https://script.google.com/macros/s/xxxxx/exec" style="font-family:monospace;font-size:12px">
+    </div>
+    <div class="mbtns">
+      <button class="btn" id="cfgCancel">取消</button>
+      <button class="btn p" id="cfgSave">儲存並載入</button>
     </div>
   </div>
 </div>
 
 <script>
-// ── 設定 ────────────────────────────────────────────────────
-const HARDCODED_API_URL = 'https://script.google.com/macros/s/AKfycbyEkZJz_7XJlQjLURIrSmVQgxl43kbEQ9mWucSf3cHwxb0YHitzv1YKPPOVlVtiiGtt/exec'; // 可直接在這裡填寫固定網址
+var allData = [];
+var curTab = 'all';
+var delId = null;
 
-let allData = [];
-let currentTab = 'all';
-let pendingDeleteId = null;
+function getUrl() { return 'https://script.google.com/macros/s/AKfycbyEkZJz_7XJlQjLURIrSmVQgxl43kbEQ9mWucSf3cHwxb0YHitzv1YKPPOVlVtiiGtt/exec'; }
 
-function getApiUrl() {
-  return HARDCODED_API_URL || localStorage.getItem('tender_api_url') || '';
+function apiCall(body, cb) {
+  var url = getUrl();
+  if (!url) { showCfg(); return; }
+  fetch(url, { method: 'POST', body: JSON.stringify(body) })
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if (j && j.error) throw new Error(j.error);
+      cb(null, j);
+    })
+    .catch(function(e){ cb(e); });
 }
 
-// ── API 呼叫 ─────────────────────────────────────────────────
-async function api(body) {
-  const url = getApiUrl();
-  if (!url) { openConfig(); throw new Error('未設定 API 網址'); }
-  const res = await fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(body)
-  });
-  const json = await res.json();
-  if (json && json.error) throw new Error(json.error);
-  return json;
+function loadData() {
+  var url = getUrl();
+  if (!url) { showCfg(); return; }
+  document.getElementById('list').innerHTML = '<div class="smsg"><div class="spin"></div>載入中…</div>';
+  document.getElementById('ebanner').style.display = 'none';
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if (!Array.isArray(j)) throw new Error('回傳格式錯誤');
+      allData = j;
+      updateStats();
+      render();
+      var now = new Date();
+      document.getElementById('lupd').textContent = '更新：' + pad(now.getHours()) + ':' + pad(now.getMinutes());
+      document.getElementById('tsub').textContent = '共 ' + allData.length + ' 筆';
+    })
+    .catch(function(e){ showErr('載入失敗：' + e.message); document.getElementById('list').innerHTML = '<div class="smsg">⚠️ 無法載入資料</div>'; });
 }
 
-// ── 載入資料 ─────────────────────────────────────────────────
-async function loadData() {
-  const url = getApiUrl();
-  if (!url) { openConfig(); return; }
-  document.getElementById('list').innerHTML = '<div class="state-msg"><div class="spinner"></div>載入中…</div>';
-  document.getElementById('error-banner').style.display = 'none';
-  try {
-    const res = await fetch(url);
-    const json = await res.json();
-    if (!Array.isArray(json)) throw new Error('回傳格式錯誤');
-    allData = json;
-    updateStats();
-    render();
-    const now = new Date();
-    document.getElementById('last-updated').textContent = `更新：${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-    document.getElementById('topbar-sub').textContent = `共 ${allData.length} 筆`;
-  } catch(e) {
-    showError('載入失敗：' + e.message);
-    document.getElementById('list').innerHTML = '<div class="state-msg">⚠️ 無法載入資料</div>';
-  }
-}
-
-function showError(msg) {
-  const b = document.getElementById('error-banner');
-  b.textContent = msg;
-  b.style.display = 'block';
-}
+function pad(n){ return n < 10 ? '0'+n : ''+n; }
+function showErr(m){ var b=document.getElementById('ebanner'); b.textContent=m; b.style.display='block'; }
 
 function updateStats() {
-  const bid = allData.filter(t => t.status === '已投標').length;
-  const pending = allData.filter(t => t.status === '未投標').length;
-  document.getElementById('s-total').textContent = allData.length;
-  document.getElementById('s-bid').textContent = bid;
-  document.getElementById('s-pending').textContent = pending;
+  var bid = allData.filter(function(t){ return t.status==='已投標'; }).length;
+  var pend = allData.filter(function(t){ return t.status==='未投標'; }).length;
+  document.getElementById('st').textContent = allData.length;
+  document.getElementById('sb').textContent = bid;
+  document.getElementById('sp').textContent = pend;
 }
 
-// ── Tab & 搜尋 ───────────────────────────────────────────────
 function setTab(tab) {
-  currentTab = tab;
-  ['all','pending','bid'].forEach(t => document.getElementById('tab-'+t).classList.toggle('active', t===tab));
+  curTab = tab;
+  ['all','pending','bid'].forEach(function(t){
+    document.getElementById('tab-'+t).classList.toggle('on', t===tab);
+  });
   render();
 }
 
-function fmtAmount(n) {
-  const num = parseInt((n+'').replace(/,/g,''));
+function fmtAmt(n) {
+  var num = parseInt((n+'').replace(/,/g,''));
   return isNaN(num) ? n : '$' + num.toLocaleString('zh-TW');
 }
 
-// ── 渲染卡片 ─────────────────────────────────────────────────
 function render() {
-  const q = document.getElementById('search').value.trim().toLowerCase();
-  let data = allData;
-  if (currentTab === 'pending') data = data.filter(t => t.status === '未投標');
-  if (currentTab === 'bid')     data = data.filter(t => t.status === '已投標');
-  if (q) data = data.filter(t =>
-    (t.id+'').toLowerCase().includes(q) ||
-    (t.name+'').toLowerCase().includes(q) ||
-    (t.client+'').toLowerCase().includes(q)
-  );
+  var q = document.getElementById('search').value.trim().toLowerCase();
+  var data = allData;
+  if (curTab==='pending') data = data.filter(function(t){ return t.status==='未投標'; });
+  if (curTab==='bid')     data = data.filter(function(t){ return t.status==='已投標'; });
+  if (q) data = data.filter(function(t){
+    return (t.id+'').toLowerCase().indexOf(q)>-1 ||
+           (t.name+'').toLowerCase().indexOf(q)>-1 ||
+           (t.client+'').toLowerCase().indexOf(q)>-1;
+  });
+  if (!data.length) { document.getElementById('list').innerHTML='<div class="smsg">沒有符合的標案</div>'; return; }
 
-  if (data.length === 0) {
-    document.getElementById('list').innerHTML = '<div class="state-msg">沒有符合的標案</div>';
-    return;
+  var html = '';
+  for (var i=0; i<data.length; i++) {
+    var t = data[i];
+    var isBid = t.status==='已投標';
+    var resp = (t.response||'（未填寫）').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>');
+    var notes = (t.notes||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>');
+    var safeId = (t.id+'').replace(/'/g,"\\'");
+    var safeName = (t.name+'').replace(/'/g,"\\'");
+    html += '<div class="card" id="card-'+i+'">';
+    html += '<div class="ch" onclick="toggle('+i+')">';
+    html += '<span class="pill '+(isBid?'b':'pd')+'" onclick="event.stopPropagation();quickToggle(\''+safeId+'\')" title="點擊切換狀態"><span class="dot"></span>'+t.status+'</span>';
+    html += '<div class="ci"><div class="tid">'+(t.id||'—')+'</div><div class="tn">'+(t.name||'（無名稱）')+'</div><div class="tc">'+(t.client||'')+'</div></div>';
+    html += '<div class="cm"><div class="amt">'+fmtAmt(t.amount)+'</div><div class="amtl">陪標金額</div>'+(t.open_date?'<div class="od">開標 '+t.open_date+'</div>':'')+'</div>';
+    html += '<svg class="cv" id="cv-'+i+'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+    html += '</div>';
+    html += '<div class="detail" id="det-'+i+'">';
+    html += '<div class="dgrid">';
+    html += '<div class="di"><label>客戶單位</label><span>'+(t.client||'—')+'</span></div>';
+    html += '<div class="di"><label>開標日期</label><span>'+(t.open_date||'—')+'</span></div>';
+    html += '<div class="di"><label>標案號碼</label><span style="font-family:monospace">'+(t.id||'—')+'</span></div>';
+    html += '<div class="di"><label>陪標金額</label><span>'+fmtAmt(t.amount)+'</span></div>';
+    html += '</div>';
+    html += '<div class="stl">應對話術</div><div class="rbox'+(isBid?'':' am')+'">'+resp+'</div>';
+    if (t.notes) html += '<div class="stl">備註</div><div class="nbox">'+notes+'</div>';
+    html += '</div>';
+    html += '<div class="cacts" id="act-'+i+'">';
+    html += '<button class="abtn" onclick="openEdit(\''+safeId+'\')">✏️ 編輯</button>';
+    html += '<button class="abtn del" onclick="openDel(\''+safeId+'\',\''+safeName+'\')">🗑 刪除</button>';
+    html += '</div>';
+    html += '</div>';
   }
-
-  document.getElementById('list').innerHTML = data.map((t, i) => {
-    const isBid = t.status === '已投標';
-    return `
-    <div class="tender-card" id="card-${i}">
-      <div class="card-header" onclick="toggle(${i})">
-        <span class="status-pill ${isBid ? 'pill-bid' : 'pill-pending'}"
-              onclick="event.stopPropagation(); quickToggle('${t.id}')"
-              title="點擊切換狀態">
-          <span class="pill-dot"></span>${t.status}
-        </span>
-        <div class="card-info">
-          <div class="tender-id">${t.id || '—'}</div>
-          <div class="tender-name">${t.name || '（無名稱）'}</div>
-          <div class="tender-client">${t.client || ''}</div>
-        </div>
-        <div class="card-meta">
-          <div class="amount">${fmtAmount(t.amount)}</div>
-          <div class="amount-label">陪標金額</div>
-          ${t.open_date ? `<div class="open-date">開標 ${t.open_date}</div>` : ''}
-        </div>
-        <svg class="chevron" id="chev-${i}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="card-detail" id="detail-${i}">
-        <div class="detail-grid">
-          <div class="detail-item"><label>客戶單位</label><span>${t.client || '—'}</span></div>
-          <div class="detail-item"><label>開標日期</label><span>${t.open_date || '—'}</span></div>
-          <div class="detail-item"><label>標案號碼</label><span style="font-family:monospace">${t.id || '—'}</span></div>
-          <div class="detail-item"><label>陪標金額</label><span>${fmtAmount(t.amount)}</span></div>
-        </div>
-        <div class="section-title">應對話術</div>
-        <div class="response-box ${isBid ? '' : 'amber'}">${(t.response||'（未填寫）').replace(/\n/g,'<br>')}</div>
-        ${t.notes ? `<div class="section-title">備註</div><div class="notes-box">${t.notes.replace(/\n/g,'<br>')}</div>` : ''}
-      </div>
-      <div class="card-actions hidden" id="actions-${i}">
-        <button class="act-btn" onclick="openEdit('${t.id}')">✏️ 編輯</button>
-        <button class="act-btn danger" onclick="openDelete('${t.id}','${(t.name||'').replace(/'/g,'\\'')}')">🗑 刪除</button>
-      </div>
-    </div>`;
-  }).join('');
+  document.getElementById('list').innerHTML = html;
 }
 
 function toggle(i) {
-  const detail  = document.getElementById('detail-'+i);
-  const actions = document.getElementById('actions-'+i);
-  const chev    = document.getElementById('chev-'+i);
-  const card    = document.getElementById('card-'+i);
-  const isOpen  = detail.classList.contains('open');
-  detail.classList.toggle('open', !isOpen);
-  chev.classList.toggle('open', !isOpen);
-  card.classList.toggle('expanded', !isOpen);
-  actions.classList.toggle('hidden', isOpen);
+  var det=document.getElementById('det-'+i);
+  var act=document.getElementById('act-'+i);
+  var cv=document.getElementById('cv-'+i);
+  var card=document.getElementById('card-'+i);
+  var op=det.classList.contains('op');
+  det.classList.toggle('op',!op);
+  act.classList.toggle('op',!op);
+  cv.classList.toggle('op',!op);
+  card.classList.toggle('exp',!op);
 }
 
-// ── 快速切換狀態 ──────────────────────────────────────────────
-async function quickToggle(id) {
-  try {
-    const res = await api({ action: 'toggle', id });
-    const idx = allData.findIndex(t => t.id === id);
-    if (idx !== -1) allData[idx].status = res.newStatus;
-    updateStats();
-    render();
-  } catch(e) {
-    showError('切換失敗：' + e.message);
-  }
-}
-
-// ── 新增表單 ─────────────────────────────────────────────────
-function openAdd() {
-  document.getElementById('form-title').textContent = '新增標案';
-  document.getElementById('edit-id').value = '';
-  ['id','name','amount','client','open_date','response','notes'].forEach(f => {
-    document.getElementById('f-'+f).value = '';
-  });
-  document.getElementById('f-status').value = '未投標';
-  document.getElementById('form-submit-btn').textContent = '新增';
-  document.getElementById('form-overlay').classList.add('open');
-}
-
-// ── 編輯表單 ─────────────────────────────────────────────────
-function openEdit(id) {
-  const t = allData.find(x => x.id === id);
-  if (!t) return;
-  document.getElementById('form-title').textContent = '編輯標案';
-  document.getElementById('edit-id').value = id;
-  ['id','name','amount','client','open_date','response','notes'].forEach(f => {
-    document.getElementById('f-'+f).value = t[f] || '';
-  });
-  document.getElementById('f-status').value = t.status || '未投標';
-  document.getElementById('form-submit-btn').textContent = '儲存';
-  document.getElementById('form-overlay').classList.add('open');
-}
-
-function closeForm() {
-  document.getElementById('form-overlay').classList.remove('open');
-}
-
-// ── 提交表單 ─────────────────────────────────────────────────
-async function submitForm() {
-  const editId = document.getElementById('edit-id').value;
-  const data = {
-    id:        document.getElementById('f-id').value.trim(),
-    name:      document.getElementById('f-name').value.trim(),
-    amount:    document.getElementById('f-amount').value.trim(),
-    status:    document.getElementById('f-status').value,
-    client:    document.getElementById('f-client').value.trim(),
-    open_date: document.getElementById('f-open_date').value,
-    response:  document.getElementById('f-response').value.trim(),
-    notes:     document.getElementById('f-notes').value.trim(),
-  };
-
-  if (!data.id || !data.name || !data.amount) {
-    alert('請填寫標案號碼、名稱和金額');
-    return;
-  }
-
-  const btn = document.getElementById('form-submit-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="btn-spinner"></span>儲存中…';
-
-  try {
-    if (editId) {
-      await api({ action: 'update', ...data });
-    } else {
-      await api({ action: 'add', ...data });
+function quickToggle(id) {
+  apiCall({ action:'toggle', id:id }, function(err, res){
+    if (err) { showErr('切換失敗：'+err.message); return; }
+    for (var i=0;i<allData.length;i++) {
+      if (allData[i].id===id) { allData[i].status=res.newStatus; break; }
     }
-    closeForm();
-    await loadData();
-  } catch(e) {
-    showError('儲存失敗：' + e.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = editId ? '儲存' : '新增';
-  }
+    updateStats(); render();
+  });
 }
 
-// ── 刪除 ─────────────────────────────────────────────────────
-function openDelete(id, name) {
-  pendingDeleteId = id;
-  document.getElementById('del-name').textContent = name;
-  document.getElementById('del-overlay').classList.add('open');
+function openAdd() {
+  document.getElementById('formTitle').textContent='新增標案';
+  document.getElementById('eid').value='';
+  document.getElementById('fid').value='';
+  document.getElementById('fname').value='';
+  document.getElementById('famt').value='';
+  document.getElementById('fstat').value='未投標';
+  document.getElementById('fclient').value='';
+  document.getElementById('fdate').value='';
+  document.getElementById('fresp').value='';
+  document.getElementById('fnotes').value='';
+  document.getElementById('formSubmit').textContent='新增';
+  document.getElementById('formOv').classList.add('op');
 }
 
-function closeDel() {
-  pendingDeleteId = null;
-  document.getElementById('del-overlay').classList.remove('open');
+function openEdit(id) {
+  var t=null;
+  for (var i=0;i<allData.length;i++) { if (allData[i].id===id){t=allData[i];break;} }
+  if (!t) return;
+  document.getElementById('formTitle').textContent='編輯標案';
+  document.getElementById('eid').value=id;
+  document.getElementById('fid').value=t.id||'';
+  document.getElementById('fname').value=t.name||'';
+  document.getElementById('famt').value=t.amount||'';
+  document.getElementById('fstat').value=t.status||'未投標';
+  document.getElementById('fclient').value=t.client||'';
+  document.getElementById('fdate').value=t.open_date||'';
+  document.getElementById('fresp').value=t.response||'';
+  document.getElementById('fnotes').value=t.notes||'';
+  document.getElementById('formSubmit').textContent='儲存';
+  document.getElementById('formOv').classList.add('op');
 }
 
-async function confirmDelete() {
-  if (!pendingDeleteId) return;
-  const btn = document.getElementById('del-confirm-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="btn-spinner"></span>刪除中…';
-  try {
-    await api({ action: 'delete', id: pendingDeleteId });
-    closeDel();
-    await loadData();
-  } catch(e) {
-    showError('刪除失敗：' + e.message);
-    btn.disabled = false;
-    btn.textContent = '確認刪除';
-  }
+function submitForm() {
+  var editId=document.getElementById('eid').value;
+  var data={
+    id:document.getElementById('fid').value.trim(),
+    name:document.getElementById('fname').value.trim(),
+    amount:document.getElementById('famt').value.trim(),
+    status:document.getElementById('fstat').value,
+    client:document.getElementById('fclient').value.trim(),
+    open_date:document.getElementById('fdate').value,
+    response:document.getElementById('fresp').value.trim(),
+    notes:document.getElementById('fnotes').value.trim()
+  };
+  if (!data.id||!data.name||!data.amount){alert('請填寫標案號碼、名稱和金額');return;}
+  var btn=document.getElementById('formSubmit');
+  btn.disabled=true;
+  btn.innerHTML='<span class="bspin"></span>儲存中…';
+  data.action = editId ? 'update' : 'add';
+  apiCall(data, function(err){
+    btn.disabled=false;
+    btn.textContent=editId?'儲存':'新增';
+    if (err){showErr('儲存失敗：'+err.message);return;}
+    document.getElementById('formOv').classList.remove('op');
+    loadData();
+  });
 }
 
-// ── 設定 Modal ───────────────────────────────────────────────
-function openConfig() {
-  document.getElementById('api-url-input').value = getApiUrl();
-  document.getElementById('config-overlay').classList.add('open');
+function openDel(id, name) {
+  delId=id;
+  document.getElementById('delName').textContent=name;
+  document.getElementById('delOv').classList.add('op');
 }
-function closeConfig() {
-  document.getElementById('config-overlay').classList.remove('open');
+
+function confirmDel() {
+  if (!delId) return;
+  var btn=document.getElementById('delConfirm');
+  btn.disabled=true;
+  btn.innerHTML='<span class="bspin"></span>刪除中…';
+  apiCall({action:'delete',id:delId},function(err){
+    btn.disabled=false;
+    btn.textContent='確認刪除';
+    if (err){showErr('刪除失敗：'+err.message);return;}
+    document.getElementById('delOv').classList.remove('op');
+    delId=null;
+    loadData();
+  });
 }
-function saveConfig() {
-  const url = document.getElementById('api-url-input').value.trim();
-  if (!url) { alert('請輸入網址'); return; }
-  localStorage.setItem('tender_api_url', url);
-  closeConfig();
+
+function showCfg() {
+  document.getElementById('cfgUrl').value=getUrl();
+  document.getElementById('cfgOv').classList.add('op');
+}
+
+function saveCfg() {
+  var url=document.getElementById('cfgUrl').value.trim();
+  if (!url){alert('請輸入網址');return;}
+  localStorage.setItem('tender_api_url',url);
+  document.getElementById('cfgOv').classList.remove('op');
   loadData();
 }
 
-// 點背景關閉 modal
-document.querySelectorAll('.overlay').forEach(el => {
-  el.addEventListener('click', e => {
-    if (e.target === el) {
-      el.classList.remove('open');
-      if (el.id === 'del-overlay') pendingDeleteId = null;
-    }
+// 綁定按鈕
+document.getElementById('refreshBtn').onclick = loadData;
+document.getElementById('configBtn').onclick = showCfg;
+document.getElementById('addBtn').onclick = openAdd;
+document.getElementById('formCancel').onclick = function(){ document.getElementById('formOv').classList.remove('op'); };
+document.getElementById('formSubmit').onclick = submitForm;
+document.getElementById('delCancel').onclick = function(){ document.getElementById('delOv').classList.remove('op'); delId=null; };
+document.getElementById('delConfirm').onclick = confirmDel;
+document.getElementById('cfgCancel').onclick = function(){ document.getElementById('cfgOv').classList.remove('op'); };
+document.getElementById('cfgSave').onclick = saveCfg;
+document.getElementById('search').oninput = render;
+document.getElementById('tab-all').onclick = function(){ setTab('all'); };
+document.getElementById('tab-pending').onclick = function(){ setTab('pending'); };
+document.getElementById('tab-bid').onclick = function(){ setTab('bid'); };
+
+// 點背景關閉
+['formOv','delOv','cfgOv'].forEach(function(id){
+  document.getElementById(id).addEventListener('click',function(e){
+    if(e.target===this){ this.classList.remove('op'); if(id==='delOv') delId=null; }
   });
 });
 
-// ── 初始化 ───────────────────────────────────────────────────
-window.addEventListener('load', () => {
-  if (!getApiUrl()) {
-    document.getElementById('list').innerHTML = '<div class="state-msg">請先點右上角「⚙ 設定」輸入 API 網址</div>';
-  } else {
-    loadData();
-  }
-});
+// 啟動
+if (!getUrl()) {
+  document.getElementById('list').innerHTML='<div class="smsg">請先點右上角「⚙ 設定」輸入 API 網址</div>';
+} else {
+  loadData();
+}
 </script>
 </body>
 </html>
