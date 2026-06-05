@@ -359,7 +359,7 @@ function submitForm() {
     response:document.getElementById('fresp').value.trim(),
     notes:document.getElementById('fnotes').value.trim()
   };
-  if (!data.id||!data.name||!data.amount){alert('請填寫標案號碼、名稱和金額');return;}
+  if (!data.id||!data.name){alert('請填寫標案號碼和名稱');return;}
   var btn=document.getElementById('formSubmit');
   btn.disabled=true;
   btn.innerHTML='<span class="bspin"></span>儲存中…';
