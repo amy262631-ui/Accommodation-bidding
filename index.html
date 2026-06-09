@@ -235,10 +235,19 @@ function loadData() {
 function pad(n){ return n<10?'0'+n:''+n; }
 function showErr(m){ var b=document.getElementById('ebanner'); b.textContent=m; b.style.display='block'; }
 
-// 日期格式化：2026-04-15 → 2026/04/15
+// 日期格式化：各種格式 → 2026/06/08
 function fmtDate(d) {
   if (!d) return '—';
-  return (d+'').replace(/-/g, '/').split('T')[0].split(' ')[0];
+  var s = (d+'').trim();
+  // 已經是 YYYY/MM/DD 或 YYYY-MM-DD 開頭，直接取前10碼轉斜線
+  var m = s.match(/(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
+  if (m) return m[1] + '/' + pad(parseInt(m[2])) + '/' + pad(parseInt(m[3]));
+  // 嘗試 Date 解析（應對 "Wed Apr 15 2026..." 這類格式）
+  var dt = new Date(s);
+  if (!isNaN(dt.getTime())) {
+    return dt.getFullYear() + '/' + pad(dt.getMonth()+1) + '/' + pad(dt.getDate());
+  }
+  return s;
 }
 
 function updateStats() {
