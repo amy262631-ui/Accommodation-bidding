@@ -15,82 +15,87 @@
   --r:10px; --rl:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.topbar{background:var(--surface);border-bottom:0.5px solid var(--border);padding:0 1.2rem;display:flex;align-items:center;gap:10px;height:52px;position:sticky;top:0;z-index:100}
-.logo{font-size:15px;font-weight:600}
-.sub{font-size:12px;color:var(--text3)}
-.tr{margin-left:auto;display:flex;align-items:center;gap:7px}
-.ibtn{background:none;border:0.5px solid var(--border-md);border-radius:8px;padding:5px 11px;font-size:12px;color:var(--text2);cursor:pointer;font-family:inherit;transition:background .15s}
+body{font-family:-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:17px}
+.topbar{background:var(--surface);border-bottom:0.5px solid var(--border);padding:0 1.4rem;display:flex;align-items:center;gap:12px;height:62px;position:sticky;top:0;z-index:100}
+.logo{font-size:19px;font-weight:600}
+.sub{font-size:15px;color:var(--text3)}
+.tr{margin-left:auto;display:flex;align-items:center;gap:8px}
+.ibtn{background:none;border:0.5px solid var(--border-md);border-radius:9px;padding:9px 16px;font-size:15px;color:var(--text2);cursor:pointer;font-family:inherit;transition:background .15s}
 .ibtn:hover{background:var(--surface2)}
 .ibtn.p{background:var(--text);color:#fff;border-color:var(--text);font-weight:500}
 .ibtn.p:hover{opacity:.88}
-.lupd{font-size:11px;color:var(--text3)}
-.wrap{max-width:820px;margin:0 auto;padding:1.5rem 1rem 4rem}
+.lupd{font-size:14px;color:var(--text3)}
+.wrap{max-width:880px;margin:0 auto;padding:1.5rem 1rem 4rem}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
-.stat{background:var(--surface);border-radius:var(--r);border:0.5px solid var(--border);padding:1rem 1.1rem}
-.slbl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
-.sval{font-size:26px;font-weight:600;color:var(--text);line-height:1}
+.stat{background:var(--surface);border-radius:var(--r);border:0.5px solid var(--border);padding:1.1rem 1.2rem}
+.slbl{font-size:14px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.sval{font-size:32px;font-weight:600;color:var(--text);line-height:1}
 .sval.g{color:var(--green)}.sval.a{color:var(--amber)}
-.tabs{display:flex;gap:6px;margin-bottom:1rem}
-.tab{padding:6px 15px;font-size:13px;border-radius:8px;border:0.5px solid var(--border-md);background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;font-weight:500;transition:all .15s}
+.tabs{display:flex;gap:7px;margin-bottom:1.1rem}
+.tab{padding:9px 20px;font-size:16px;border-radius:9px;border:0.5px solid var(--border-md);background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;font-weight:500;transition:all .15s}
 .tab.on{background:var(--text);color:#fff;border-color:var(--text)}
 .tab:hover:not(.on){background:var(--surface2)}
-.sw{margin-bottom:1rem;position:relative}
-.sw svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--text3);pointer-events:none}
-.sinput{width:100%;padding:8px 12px 8px 33px;border:0.5px solid var(--border-md);border-radius:var(--r);background:var(--surface);font-size:13px;color:var(--text);font-family:inherit;outline:none;transition:border-color .15s}
+.sw{margin-bottom:1.1rem;position:relative}
+.sw svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--text3);pointer-events:none}
+.sinput{width:100%;padding:11px 14px 11px 38px;border:0.5px solid var(--border-md);border-radius:var(--r);background:var(--surface);font-size:16px;color:var(--text);font-family:inherit;outline:none;transition:border-color .15s}
 .sinput:focus{border-color:rgba(0,0,0,.35)}
 .sinput::placeholder{color:var(--text3)}
-.list{display:flex;flex-direction:column;gap:8px}
+.list{display:flex;flex-direction:column;gap:10px}
 .card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--rl);overflow:hidden;transition:border-color .15s}
 .card:hover{border-color:var(--border-md)}
 .card.exp{border-color:rgba(0,0,0,.28)}
-.ch{padding:1rem 1.2rem;cursor:pointer;display:flex;align-items:flex-start;gap:12px;user-select:none}
-.pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:1px;cursor:pointer;transition:opacity .15s}
+.ch{padding:1.2rem 1.4rem;cursor:pointer;display:flex;align-items:flex-start;gap:14px;user-select:none}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;padding:6px 15px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:1px;cursor:pointer;transition:opacity .15s}
 .pill:hover{opacity:.72}
 .pill.b{background:var(--green-bg);color:var(--green)}
 .pill.pd{background:var(--amber-bg);color:var(--amber)}
-.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
 .ci{flex:1;min-width:0}
-.tid{font-size:11px;color:var(--text3);font-family:'Courier New',monospace;margin-bottom:3px}
-.tn{font-size:14px;font-weight:600;line-height:1.4}
-.tc{font-size:12px;color:var(--text2);margin-top:3px}
+.tid{font-size:14px;color:var(--text3);font-family:'Courier New',monospace;margin-bottom:5px}
+.tn{font-size:18px;font-weight:600;line-height:1.4}
+.tc{font-size:15px;color:var(--text2);margin-top:4px}
 .cm{text-align:right;flex-shrink:0}
-.amt{font-size:15px;font-weight:600}
-.amtl{font-size:11px;color:var(--text3);margin-top:1px}
-.od{font-size:11px;color:var(--text3);margin-top:4px}
-.cv{margin-top:2px;flex-shrink:0;transition:transform .2s;color:var(--text3)}
+.amt{font-size:19px;font-weight:600}
+.amtl{font-size:13px;color:var(--text3);margin-top:2px}
+.od{font-size:14px;color:var(--text3);margin-top:5px}
+.cv{margin-top:4px;flex-shrink:0;transition:transform .2s;color:var(--text3)}
 .cv.op{transform:rotate(180deg)}
-.detail{display:none;border-top:0.5px solid var(--border);padding:1rem 1.2rem .5rem}
+.detail{display:none;border-top:0.5px solid var(--border);padding:1.2rem 1.4rem .6rem}
 .detail.op{display:block}
-.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem 1.5rem;margin-bottom:.9rem}
-.di label{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);display:block;margin-bottom:3px}
-.di span{font-size:13px;color:var(--text)}
-.stl{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:6px}
-.rbox{background:var(--surface2);border-radius:8px;padding:10px 13px;font-size:13px;line-height:1.7;border-left:3px solid var(--green);margin-bottom:.75rem}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem 1.5rem;margin-bottom:1.1rem}
+.di label{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);display:block;margin-bottom:4px}
+.di span{font-size:16px;color:var(--text)}
+.stl{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:8px}
+.rbox{background:var(--surface2);border-radius:8px;padding:13px 16px;font-size:16px;line-height:1.8;border-left:3px solid var(--green);margin-bottom:.9rem}
 .rbox.am{border-left-color:var(--amber)}
-.nbox{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:.75rem}
-.cacts{display:none;gap:6px;padding:0 1.2rem .9rem}
+.nbox{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:.9rem}
+.cacts{display:none;gap:9px;padding:0 1.4rem 1.1rem;flex-wrap:wrap}
 .cacts.op{display:flex}
-.abtn{padding:5px 14px;font-size:12px;border-radius:7px;border:0.5px solid var(--border-md);background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;transition:background .15s}
+.abtn{padding:9px 20px;font-size:15px;border-radius:9px;border:0.5px solid var(--border-md);background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;transition:background .15s}
 .abtn:hover{background:var(--surface2)}
 .abtn.del{color:var(--red);border-color:rgba(153,27,27,.25)}
 .abtn.del:hover{background:var(--red-bg)}
-.smsg{text-align:center;padding:3.5rem 1rem;color:var(--text3);font-size:14px}
-.ebanner{background:var(--red-bg);border:0.5px solid #fca5a5;border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:1rem;display:none}
+.abtn.close{color:var(--green);border-color:rgba(59,109,17,.3);background:var(--green-bg)}
+.abtn.close:hover{opacity:.82}
+.pill.closed-pill{background:#f0ede8;color:var(--text3);cursor:default}
+.card.closed-card{opacity:.75}
+.card.closed-card .tn{color:var(--text2)}
+.smsg{text-align:center;padding:3.5rem 1rem;color:var(--text3);font-size:17px}
+.ebanner{background:var(--red-bg);border:0.5px solid #fca5a5;border-radius:var(--r);padding:12px 16px;font-size:15px;color:var(--red);margin-bottom:1rem;display:none}
 /* overlay */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.38);display:none;align-items:center;justify-content:center;z-index:200;padding:1rem}
 .ov.op{display:flex}
-.modal{background:var(--surface);border-radius:var(--rl);padding:1.5rem;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
-.mtitle{font-size:16px;font-weight:600;margin-bottom:1.2rem}
-.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem 1rem}
-.fg{display:flex;flex-direction:column;gap:5px}
+.modal{background:var(--surface);border-radius:var(--rl);padding:1.7rem;width:100%;max-width:560px;max-height:90vh;overflow-y:auto}
+.mtitle{font-size:20px;font-weight:600;margin-bottom:1.3rem}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem 1rem}
+.fg{display:flex;flex-direction:column;gap:7px}
 .fg.full{grid-column:1/-1}
-.fg label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)}
-.fg input,.fg select,.fg textarea{padding:8px 10px;border:0.5px solid var(--border-md);border-radius:8px;font-size:13px;color:var(--text);font-family:inherit;background:var(--surface);outline:none;transition:border-color .15s;resize:vertical}
+.fg label{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)}
+.fg input,.fg select,.fg textarea{padding:11px 13px;border:0.5px solid var(--border-md);border-radius:9px;font-size:16px;color:var(--text);font-family:inherit;background:var(--surface);outline:none;transition:border-color .15s;resize:vertical}
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(0,0,0,.38)}
-.fg textarea{min-height:70px}
-.mbtns{display:flex;gap:8px;justify-content:flex-end;margin-top:1.2rem}
-.btn{padding:7px 20px;font-size:13px;border-radius:8px;font-family:inherit;cursor:pointer;border:0.5px solid var(--border-md);background:transparent;color:var(--text2);transition:background .15s}
+.fg textarea{min-height:85px}
+.mbtns{display:flex;gap:9px;justify-content:flex-end;margin-top:1.4rem}
+.btn{padding:10px 24px;font-size:16px;border-radius:9px;font-family:inherit;cursor:pointer;border:0.5px solid var(--border-md);background:transparent;color:var(--text2);transition:background .15s}
 .btn:hover{background:var(--surface2)}
 .btn.p{background:var(--text);color:#fff;border-color:var(--text)}
 .btn.p:hover{opacity:.88}
@@ -117,14 +122,15 @@ body{font-family:-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;bac
 <div class="wrap">
   <div class="ebanner" id="ebanner"></div>
   <div class="stats">
-    <div class="stat"><div class="slbl">總標案</div><div class="sval" id="st">—</div></div>
+    <div class="stat"><div class="slbl">進行中</div><div class="sval" id="st">—</div></div>
     <div class="stat"><div class="slbl">已投標</div><div class="sval g" id="sb">—</div></div>
     <div class="stat"><div class="slbl">未投標</div><div class="sval a" id="sp">—</div></div>
   </div>
   <div class="tabs">
-    <button class="tab on" id="tab-all">全部</button>
+    <button class="tab on" id="tab-all">進行中</button>
     <button class="tab" id="tab-pending">未投標</button>
     <button class="tab" id="tab-bid">已投標</button>
+    <button class="tab" id="tab-closed" style="color:var(--text3)">結案記錄</button>
   </div>
   <div class="sw">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -140,7 +146,7 @@ body{font-family:-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;bac
     <input type="hidden" id="eid">
     <div class="fgrid">
       <div class="fg"><label>標案號碼 *</label><input type="text" id="fid" placeholder="例：113-招-0421"></div>
-      <div class="fg"><label>開標日期</label><input type="date" id="fdate"></div>
+      <div class="fg"><label>投標日期</label><input type="date" id="fdate"></div>
       <div class="fg full"><label>標案名稱 *</label><input type="text" id="fname" placeholder="例：市立圖書館新建工程採購案"></div>
       <div class="fg"><label>陪標金額 *</label><input type="number" id="famt" placeholder="例：8500000"></div>
       <div class="fg"><label>投標狀態</label>
@@ -153,6 +159,18 @@ body{font-family:-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;bac
     <div class="mbtns">
       <button class="btn" id="formCancel">取消</button>
       <button class="btn p" id="formSubmit">新增</button>
+    </div>
+  </div>
+</div>
+
+<!-- 結案確認 -->
+<div class="ov" id="closeOv">
+  <div class="modal" style="max-width:380px">
+    <div class="mtitle">✅ 確認結案</div>
+    <p style="font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:1.2rem">確定將「<span id="closeName" style="color:var(--text);font-weight:500"></span>」標記為結案？結案後會移至結案記錄，仍可查詢。</p>
+    <div class="mbtns">
+      <button class="btn" id="closeCancel">取消</button>
+      <button class="btn p" id="closeConfirm">確認結案</button>
     </div>
   </div>
 </div>
@@ -192,50 +210,49 @@ var delId = null;
 function getUrl() { return 'https://script.google.com/macros/s/AKfycbyEkZJz_7XJlQjLURIrSmVQgxl43kbEQ9mWucSf3cHwxb0YHitzv1YKPPOVlVtiiGtt/exec'; }
 
 function apiCall(body, cb) {
-  var url = getUrl();
-  if (!url) { showCfg(); return; }
-  fetch(url, { method: 'POST', body: JSON.stringify(body) })
+  fetch(getUrl(), { method:'POST', body:JSON.stringify(body) })
     .then(function(r){ return r.json(); })
-    .then(function(j){
-      if (j && j.error) throw new Error(j.error);
-      cb(null, j);
-    })
+    .then(function(j){ if (j && j.error) throw new Error(j.error); cb(null, j); })
     .catch(function(e){ cb(e); });
 }
 
 function loadData() {
-  var url = getUrl();
-  if (!url) { showCfg(); return; }
   document.getElementById('list').innerHTML = '<div class="smsg"><div class="spin"></div>載入中…</div>';
   document.getElementById('ebanner').style.display = 'none';
-  fetch(url)
+  fetch(getUrl())
     .then(function(r){ return r.json(); })
     .then(function(j){
       if (!Array.isArray(j)) throw new Error('回傳格式錯誤');
       allData = j;
-      updateStats();
-      render();
+      updateStats(); render();
       var now = new Date();
       document.getElementById('lupd').textContent = '更新：' + pad(now.getHours()) + ':' + pad(now.getMinutes());
-      document.getElementById('tsub').textContent = '共 ' + allData.length + ' 筆';
+      document.getElementById('tsub').textContent = '進行中 ' + allData.filter(function(t){ return t.status!=='結案'; }).length + ' 筆';
     })
-    .catch(function(e){ showErr('載入失敗：' + e.message); document.getElementById('list').innerHTML = '<div class="smsg">⚠️ 無法載入資料</div>'; });
+    .catch(function(e){ showErr('載入失敗：'+e.message); document.getElementById('list').innerHTML='<div class="smsg">⚠️ 無法載入資料</div>'; });
 }
 
-function pad(n){ return n < 10 ? '0'+n : ''+n; }
+function pad(n){ return n<10?'0'+n:''+n; }
 function showErr(m){ var b=document.getElementById('ebanner'); b.textContent=m; b.style.display='block'; }
 
+// 日期格式化：2026-04-15 → 2026/04/15
+function fmtDate(d) {
+  if (!d) return '—';
+  return (d+'').replace(/-/g, '/').split('T')[0].split(' ')[0];
+}
+
 function updateStats() {
-  var bid = allData.filter(function(t){ return t.status==='已投標'; }).length;
-  var pend = allData.filter(function(t){ return t.status==='未投標'; }).length;
-  document.getElementById('st').textContent = allData.length;
+  var active = allData.filter(function(t){ return t.status!=='結案'; });
+  var bid  = active.filter(function(t){ return t.status==='已投標'; }).length;
+  var pend = active.filter(function(t){ return t.status==='未投標'; }).length;
+  document.getElementById('st').textContent = active.length;
   document.getElementById('sb').textContent = bid;
   document.getElementById('sp').textContent = pend;
 }
 
 function setTab(tab) {
   curTab = tab;
-  ['all','pending','bid'].forEach(function(t){
+  ['all','pending','bid','closed'].forEach(function(t){
     document.getElementById('tab-'+t).classList.toggle('on', t===tab);
   });
   render();
@@ -243,48 +260,72 @@ function setTab(tab) {
 
 function fmtAmt(n) {
   var num = parseInt((n+'').replace(/,/g,''));
-  return isNaN(num) ? n : '$' + num.toLocaleString('zh-TW');
+  return isNaN(num) ? (n||'—') : '$' + num.toLocaleString('zh-TW');
 }
 
 function render() {
   var q = document.getElementById('search').value.trim().toLowerCase();
   var data = allData;
-  if (curTab==='pending') data = data.filter(function(t){ return t.status==='未投標'; });
-  if (curTab==='bid')     data = data.filter(function(t){ return t.status==='已投標'; });
+
+  if (curTab==='closed') {
+    data = data.filter(function(t){ return t.status==='結案'; });
+  } else {
+    data = data.filter(function(t){ return t.status!=='結案'; });
+    if (curTab==='pending') data = data.filter(function(t){ return t.status==='未投標'; });
+    if (curTab==='bid')     data = data.filter(function(t){ return t.status==='已投標'; });
+  }
+
   if (q) data = data.filter(function(t){
     return (t.id+'').toLowerCase().indexOf(q)>-1 ||
            (t.name+'').toLowerCase().indexOf(q)>-1 ||
            (t.client+'').toLowerCase().indexOf(q)>-1;
   });
-  if (!data.length) { document.getElementById('list').innerHTML='<div class="smsg">沒有符合的標案</div>'; return; }
+
+  if (!data.length) {
+    var msg = curTab==='closed' ? '目前沒有結案記錄' : '沒有符合的標案';
+    document.getElementById('list').innerHTML='<div class="smsg">'+msg+'</div>';
+    return;
+  }
 
   var html = '';
   for (var i=0; i<data.length; i++) {
     var t = data[i];
+    var isClosed = t.status==='結案';
     var isBid = t.status==='已投標';
-    var resp = (t.response||'（未填寫）').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>');
+    var resp  = (t.response||'（未填寫）').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>');
     var notes = (t.notes||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>');
-    var safeId = (t.id+'').replace(/'/g,"\\'");
+    var safeId   = (t.id+'').replace(/'/g,"\\'");
     var safeName = (t.name+'').replace(/'/g,"\\'");
-    html += '<div class="card" id="card-'+i+'">';
+    var pillCls  = isClosed ? 'closed-pill' : (isBid ? 'b' : 'pd');
+    var pillLabel= isClosed ? '結案' : t.status;
+    var pillClick= isClosed ? '' : ' onclick="event.stopPropagation();quickToggle(\''+safeId+'\')" title="點擊切換狀態"';
+    var dateLabel = isClosed ? '結案日期' : '投標日期';
+    var dateVal   = fmtDate(t.open_date);
+
+    html += '<div class="card'+(isClosed?' closed-card':'')+'" id="card-'+i+'">';
     html += '<div class="ch" onclick="toggle('+i+')">';
-    html += '<span class="pill '+(isBid?'b':'pd')+'" onclick="event.stopPropagation();quickToggle(\''+safeId+'\')" title="點擊切換狀態"><span class="dot"></span>'+t.status+'</span>';
+    html += '<span class="pill '+pillCls+'"'+pillClick+'><span class="dot"></span>'+pillLabel+'</span>';
     html += '<div class="ci"><div class="tid">'+(t.id||'—')+'</div><div class="tn">'+(t.name||'（無名稱）')+'</div><div class="tc">'+(t.client||'')+'</div></div>';
-    html += '<div class="cm"><div class="amt">'+fmtAmt(t.amount)+'</div><div class="amtl">陪標金額</div>'+(t.open_date?'<div class="od">開標 '+t.open_date+'</div>':'')+'</div>';
+    html += '<div class="cm"><div class="amt">'+fmtAmt(t.amount)+'</div><div class="amtl">陪標金額</div><div class="od">'+dateLabel+' '+dateVal+'</div></div>';
     html += '<svg class="cv" id="cv-'+i+'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
     html += '</div>';
     html += '<div class="detail" id="det-'+i+'">';
     html += '<div class="dgrid">';
     html += '<div class="di"><label>客戶單位</label><span>'+(t.client||'—')+'</span></div>';
-    html += '<div class="di"><label>開標日期</label><span>'+(t.open_date||'—')+'</span></div>';
+    html += '<div class="di"><label>'+dateLabel+'</label><span>'+dateVal+'</span></div>';
     html += '<div class="di"><label>標案號碼</label><span style="font-family:monospace">'+(t.id||'—')+'</span></div>';
     html += '<div class="di"><label>陪標金額</label><span>'+fmtAmt(t.amount)+'</span></div>';
     html += '</div>';
-    html += '<div class="stl">應對話術</div><div class="rbox'+(isBid?'':' am')+'">'+resp+'</div>';
+    if (!isClosed) {
+      html += '<div class="stl">應對話術</div><div class="rbox'+(isBid?'':' am')+'">'+resp+'</div>';
+    }
     if (t.notes) html += '<div class="stl">備註</div><div class="nbox">'+notes+'</div>';
     html += '</div>';
     html += '<div class="cacts" id="act-'+i+'">';
-    html += '<button class="abtn" onclick="openEdit(\''+safeId+'\')">✏️ 編輯</button>';
+    if (!isClosed) {
+      html += '<button class="abtn" onclick="openEdit(\''+safeId+'\')">✏️ 編輯</button>';
+      html += '<button class="abtn close" onclick="openClose(\''+safeId+'\',\''+safeName+'\')">✅ 結案</button>';
+    }
     html += '<button class="abtn del" onclick="openDel(\''+safeId+'\',\''+safeName+'\')">🗑 刪除</button>';
     html += '</div>';
     html += '</div>';
@@ -293,45 +334,59 @@ function render() {
 }
 
 function toggle(i) {
-  var det=document.getElementById('det-'+i);
-  var act=document.getElementById('act-'+i);
-  var cv=document.getElementById('cv-'+i);
-  var card=document.getElementById('card-'+i);
+  var det=document.getElementById('det-'+i), act=document.getElementById('act-'+i);
+  var cv=document.getElementById('cv-'+i), card=document.getElementById('card-'+i);
   var op=det.classList.contains('op');
-  det.classList.toggle('op',!op);
-  act.classList.toggle('op',!op);
-  cv.classList.toggle('op',!op);
-  card.classList.toggle('exp',!op);
+  det.classList.toggle('op',!op); act.classList.toggle('op',!op);
+  cv.classList.toggle('op',!op);  card.classList.toggle('exp',!op);
 }
 
 function quickToggle(id) {
-  apiCall({ action:'toggle', id:id }, function(err, res){
-    if (err) { showErr('切換失敗：'+err.message); return; }
-    for (var i=0;i<allData.length;i++) {
-      if (allData[i].id===id) { allData[i].status=res.newStatus; break; }
+  apiCall({action:'toggle',id:id}, function(err,res){
+    if (err){showErr('切換失敗：'+err.message);return;}
+    for (var i=0;i<allData.length;i++){
+      if (allData[i].id===id){allData[i].status=res.newStatus;break;}
     }
     updateStats(); render();
   });
 }
 
+// ── 結案 ──────────────────────────────────────────────────────
+var closeId = null;
+function openClose(id, name) {
+  closeId = id;
+  document.getElementById('closeName').textContent = name;
+  document.getElementById('closeOv').classList.add('op');
+}
+function confirmClose() {
+  if (!closeId) return;
+  var btn = document.getElementById('closeConfirm');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="bspin"></span>處理中…';
+  // 今天日期
+  var today = new Date();
+  var ymd = today.getFullYear()+'-'+pad(today.getMonth()+1)+'-'+pad(today.getDate());
+  apiCall({action:'update', id:closeId, status:'結案', open_date:ymd}, function(err){
+    btn.disabled=false; btn.textContent='確認結案';
+    if (err){showErr('結案失敗：'+err.message);return;}
+    document.getElementById('closeOv').classList.remove('op');
+    closeId=null; loadData();
+  });
+}
+
+// ── 新增/編輯 ─────────────────────────────────────────────────
 function openAdd() {
   document.getElementById('formTitle').textContent='新增標案';
   document.getElementById('eid').value='';
-  document.getElementById('fid').value='';
-  document.getElementById('fname').value='';
-  document.getElementById('famt').value='';
+  ['fid','fname','famt','fclient','fdate','fresp','fnotes'].forEach(function(id){ document.getElementById(id).value=''; });
   document.getElementById('fstat').value='未投標';
-  document.getElementById('fclient').value='';
-  document.getElementById('fdate').value='';
-  document.getElementById('fresp').value='';
-  document.getElementById('fnotes').value='';
   document.getElementById('formSubmit').textContent='新增';
   document.getElementById('formOv').classList.add('op');
 }
 
 function openEdit(id) {
   var t=null;
-  for (var i=0;i<allData.length;i++) { if (allData[i].id===id){t=allData[i];break;} }
+  for (var i=0;i<allData.length;i++){if(allData[i].id===id){t=allData[i];break;}}
   if (!t) return;
   document.getElementById('formTitle').textContent='編輯標案';
   document.getElementById('eid').value=id;
@@ -361,80 +416,61 @@ function submitForm() {
   };
   if (!data.id||!data.name){alert('請填寫標案號碼和名稱');return;}
   var btn=document.getElementById('formSubmit');
-  btn.disabled=true;
-  btn.innerHTML='<span class="bspin"></span>儲存中…';
-  data.action = editId ? 'update' : 'add';
+  btn.disabled=true; btn.innerHTML='<span class="bspin"></span>儲存中…';
+  data.action=editId?'update':'add';
   apiCall(data, function(err){
-    btn.disabled=false;
-    btn.textContent=editId?'儲存':'新增';
+    btn.disabled=false; btn.textContent=editId?'儲存':'新增';
     if (err){showErr('儲存失敗：'+err.message);return;}
-    document.getElementById('formOv').classList.remove('op');
-    loadData();
+    document.getElementById('formOv').classList.remove('op'); loadData();
   });
 }
 
-function openDel(id, name) {
-  delId=id;
-  document.getElementById('delName').textContent=name;
-  document.getElementById('delOv').classList.add('op');
-}
-
+// ── 刪除 ─────────────────────────────────────────────────────
+function openDel(id,name){ delId=id; document.getElementById('delName').textContent=name; document.getElementById('delOv').classList.add('op'); }
 function confirmDel() {
   if (!delId) return;
   var btn=document.getElementById('delConfirm');
-  btn.disabled=true;
-  btn.innerHTML='<span class="bspin"></span>刪除中…';
+  btn.disabled=true; btn.innerHTML='<span class="bspin"></span>刪除中…';
   apiCall({action:'delete',id:delId},function(err){
-    btn.disabled=false;
-    btn.textContent='確認刪除';
+    btn.disabled=false; btn.textContent='確認刪除';
     if (err){showErr('刪除失敗：'+err.message);return;}
-    document.getElementById('delOv').classList.remove('op');
-    delId=null;
-    loadData();
+    document.getElementById('delOv').classList.remove('op'); delId=null; loadData();
   });
 }
 
-function showCfg() {
-  document.getElementById('cfgUrl').value=getUrl();
-  document.getElementById('cfgOv').classList.add('op');
-}
-
-function saveCfg() {
+function showCfg(){ document.getElementById('cfgUrl').value=getUrl(); document.getElementById('cfgOv').classList.add('op'); }
+function saveCfg(){
   var url=document.getElementById('cfgUrl').value.trim();
   if (!url){alert('請輸入網址');return;}
   localStorage.setItem('tender_api_url',url);
-  document.getElementById('cfgOv').classList.remove('op');
-  loadData();
+  document.getElementById('cfgOv').classList.remove('op'); loadData();
 }
 
-// 綁定按鈕
-document.getElementById('refreshBtn').onclick = loadData;
-document.getElementById('configBtn').onclick = showCfg;
-document.getElementById('addBtn').onclick = openAdd;
-document.getElementById('formCancel').onclick = function(){ document.getElementById('formOv').classList.remove('op'); };
-document.getElementById('formSubmit').onclick = submitForm;
-document.getElementById('delCancel').onclick = function(){ document.getElementById('delOv').classList.remove('op'); delId=null; };
-document.getElementById('delConfirm').onclick = confirmDel;
-document.getElementById('cfgCancel').onclick = function(){ document.getElementById('cfgOv').classList.remove('op'); };
-document.getElementById('cfgSave').onclick = saveCfg;
-document.getElementById('search').oninput = render;
-document.getElementById('tab-all').onclick = function(){ setTab('all'); };
-document.getElementById('tab-pending').onclick = function(){ setTab('pending'); };
-document.getElementById('tab-bid').onclick = function(){ setTab('bid'); };
+// 綁定
+document.getElementById('refreshBtn').onclick=loadData;
+document.getElementById('configBtn').onclick=showCfg;
+document.getElementById('addBtn').onclick=openAdd;
+document.getElementById('formCancel').onclick=function(){document.getElementById('formOv').classList.remove('op');};
+document.getElementById('formSubmit').onclick=submitForm;
+document.getElementById('delCancel').onclick=function(){document.getElementById('delOv').classList.remove('op');delId=null;};
+document.getElementById('delConfirm').onclick=confirmDel;
+document.getElementById('closeConfirm').onclick=confirmClose;
+document.getElementById('closeCancel').onclick=function(){document.getElementById('closeOv').classList.remove('op');closeId=null;};
+document.getElementById('cfgCancel').onclick=function(){document.getElementById('cfgOv').classList.remove('op');};
+document.getElementById('cfgSave').onclick=saveCfg;
+document.getElementById('search').oninput=render;
+document.getElementById('tab-all').onclick=function(){setTab('all');};
+document.getElementById('tab-pending').onclick=function(){setTab('pending');};
+document.getElementById('tab-bid').onclick=function(){setTab('bid');};
+document.getElementById('tab-closed').onclick=function(){setTab('closed');};
 
-// 點背景關閉
-['formOv','delOv','cfgOv'].forEach(function(id){
+['formOv','delOv','cfgOv','closeOv'].forEach(function(id){
   document.getElementById(id).addEventListener('click',function(e){
-    if(e.target===this){ this.classList.remove('op'); if(id==='delOv') delId=null; }
+    if(e.target===this){this.classList.remove('op');if(id==='delOv')delId=null;if(id==='closeOv')closeId=null;}
   });
 });
 
-// 啟動
-if (!getUrl()) {
-  document.getElementById('list').innerHTML='<div class="smsg">請先點右上角「⚙ 設定」輸入 API 網址</div>';
-} else {
-  loadData();
-}
+loadData();
 </script>
 </body>
 </html>
