@@ -26,7 +26,7 @@ body{font-family:-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;bac
 .ibtn.p:hover{opacity:.88}
 .lupd{font-size:14px;color:var(--text3)}
 .wrap{max-width:880px;margin:0 auto;padding:1.5rem 1rem 4rem}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
 .stat{background:var(--surface);border-radius:var(--r);border:0.5px solid var(--border);padding:1.1rem 1.2rem}
 .slbl{font-size:14px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
 .sval{font-size:32px;font-weight:600;color:var(--text);line-height:1}
@@ -77,6 +77,9 @@ body{font-family:-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;bac
 .abtn.del:hover{background:var(--red-bg)}
 .abtn.close{color:var(--green);border-color:rgba(59,109,17,.3);background:var(--green-bg)}
 .abtn.close:hover{opacity:.82}
+.abtn.neg-on{color:#1a56a0;border-color:rgba(26,86,160,.3);background:#e8f0fe}
+.abtn.neg-on:hover{opacity:.82}
+.abtn.neg-off{color:var(--text3);border-color:var(--border-md)}
 .pill.neg{background:#e8f0fe;color:#1a56a0;cursor:pointer}
 .pill.neg-no{background:#f0ede8;color:var(--text3);cursor:pointer}
 .pill.closed-pill{background:#f0ede8;color:var(--text3);cursor:default}
@@ -127,6 +130,7 @@ body{font-family:-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;bac
     <div class="stat"><div class="slbl">進行中</div><div class="sval" id="st">—</div></div>
     <div class="stat"><div class="slbl">已投標</div><div class="sval g" id="sb">—</div></div>
     <div class="stat"><div class="slbl">未投標</div><div class="sval a" id="sp">—</div></div>
+    <div class="stat"><div class="slbl">未議價</div><div class="sval" style="color:#1a56a0" id="sn">—</div></div>
   </div>
   <div class="tabs">
     <button class="tab on" id="tab-all">進行中</button>
@@ -256,9 +260,11 @@ function updateStats() {
   var active = allData.filter(function(t){ return t.status!=='結案'; });
   var bid  = active.filter(function(t){ return t.status==='已投標'; }).length;
   var pend = active.filter(function(t){ return t.status==='未投標'; }).length;
+  var noNeg = active.filter(function(t){ return t.negotiated!=='已議價'; }).length;
   document.getElementById('st').textContent = active.length;
   document.getElementById('sb').textContent = bid;
   document.getElementById('sp').textContent = pend;
+  document.getElementById('sn').textContent = noNeg;
 }
 
 function setTab(tab) {
@@ -315,13 +321,7 @@ function render() {
 
     html += '<div class="card'+(isClosed?' closed-card':'')+'" id="card-'+i+'">';
     html += '<div class="ch" onclick="toggle('+i+')">';
-    html += '<div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0;margin-top:1px">';
     html += '<span class="pill '+pillCls+'"'+pillClick+'><span class="dot"></span>'+pillLabel+'</span>';
-    if (!isClosed) {
-      var isNeg = t.negotiated==='已議價';
-      html += '<span class="pill '+(isNeg?'neg':'neg-no')+'" onclick="event.stopPropagation();toggleNeg(\''+safeId+'\')" title="點擊切換議價狀態"><span class="dot"></span>'+(isNeg?'已議價':'未議價')+'</span>';
-    }
-    html += '</div>';
     html += '<div class="ci"><div class="tid">'+(t.id||'—')+'</div><div class="tn">'+(t.name||'（無名稱）')+'</div><div class="tc">'+(t.client||'')+'</div></div>';
     html += '<div class="cm"><div class="amt">'+fmtAmt(t.amount)+'</div><div class="amtl">陪標金額</div><div class="od">'+dateLabel+' '+dateVal+'</div></div>';
     html += '<svg class="cv" id="cv-'+i+'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
@@ -340,7 +340,9 @@ function render() {
     html += '</div>';
     html += '<div class="cacts" id="act-'+i+'">';
     if (!isClosed) {
+      var isNeg = t.negotiated==='已議價';
       html += '<button class="abtn" onclick="openEdit(\''+safeId+'\')">✏️ 編輯</button>';
+      html += '<button class="abtn '+(isNeg?'neg-on':'neg-off')+'" onclick="toggleNeg(\''+safeId+'\')">'+(isNeg?'💬 已議價':'💬 未議價')+'</button>';
       html += '<button class="abtn close" onclick="openClose(\''+safeId+'\',\''+safeName+'\')">✅ 結案</button>';
     }
     html += '<button class="abtn del" onclick="openDel(\''+safeId+'\',\''+safeName+'\')">🗑 刪除</button>';
