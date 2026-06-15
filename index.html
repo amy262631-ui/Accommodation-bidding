@@ -322,7 +322,14 @@ function render() {
     html += '<div class="card'+(isClosed?' closed-card':'')+'" id="card-'+i+'">';
     html += '<div class="ch" onclick="toggle('+i+')">';
     html += '<span class="pill '+pillCls+'"'+pillClick+'><span class="dot"></span>'+pillLabel+'</span>';
-    html += '<div class="ci"><div class="tid">'+(t.id||'—')+'</div><div class="tn">'+(t.name||'（無名稱）')+'</div><div class="tc">'+(t.client||'')+'</div></div>';
+    html += '<div class="ci"><div class="tid">'+(t.id||'—')+'</div><div class="tn">'+(t.name||'（無名稱）')+'</div>';
+    html += '<div style="display:flex;align-items:center;gap:8px;margin-top:4px">';
+    html += '<span class="tc">'+(t.client||'')+'</span>';
+    if (!isClosed) {
+      var isNeg2 = t.negotiated==='已議價';
+      html += '<span style="display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:20px;background:'+(isNeg2?'#e8f0fe':'#f0ede8')+';color:'+(isNeg2?'#1a56a0':'var(--text3)')+'"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block"></span>'+(isNeg2?'已議價':'未議價')+'</span>';
+    }
+    html += '</div></div>';
     html += '<div class="cm"><div class="amt">'+fmtAmt(t.amount)+'</div><div class="amtl">陪標金額</div><div class="od">'+dateLabel+' '+dateVal+'</div></div>';
     html += '<svg class="cv" id="cv-'+i+'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
     html += '</div>';
